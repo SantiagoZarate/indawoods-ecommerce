@@ -6,7 +6,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
       <aside className='w-[300px] border-r border-border'>
         this is a sidebar
       </aside>
-      <main className='flex-1 bg-neutral-300 p-6'>{children}</main>
+      <main className='flex-1 bg-neutral-50 p-6'>{children}</main>
     </section>
   );
 }

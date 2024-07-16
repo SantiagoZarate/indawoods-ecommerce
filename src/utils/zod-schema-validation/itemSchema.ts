@@ -40,7 +40,16 @@ export const defaultCreateItemValues = {
   category: undefined,
   talle: [],
   description: '',
-  images: [],
+  images: [
+    new File(
+      [],
+      'https://www.mrporter.com/variants/images/3633577411310824/in/w2000_q60.jpg',
+    ),
+    new File(
+      [],
+      'https://www.collinsdictionary.com/images/full/tshirt_204029461_1000.jpg',
+    ),
+  ],
   name: '',
   guia_de_talles: undefined,
 };
