@@ -28,7 +28,10 @@ export const createItemSchema = z.object({
     .string()
     .array()
     .min(1, { message: 'Item must be available in at least one size' }),
-  guia_de_talles: imageSchema.optional(),
+  guia_de_talles: z
+    .instanceof(FileList)
+    .refine((file) => file?.length == 1, 'File is required.')
+    .optional(),
   images: imageSchema
     .array()
     .max(5, { message: "Item can't have more than 5 images" }),

@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
+import { PictureMiniIcon } from '@/components/icons/PictureMiniIcon';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,6 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { MultiSelect } from '@/components/ui/multiSelect';
 import {
   Select,
   SelectContent,
@@ -27,6 +29,7 @@ import {
   arrayMove,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { Fish } from 'lucide-react';
 import { categories } from '../../../../constants';
 import {
   createItemSchema,
@@ -35,7 +38,15 @@ import {
 } from '../../../../utils/zod-schema-validation/itemSchema';
 import { SortableImageItem } from './SortableItemImage';
 
+const talles = ['XL', 'M', 'S'];
+
 export function CreateItemForm() {
+  const tallesList = talles.map((talle) => ({
+    value: talle,
+    label: talle,
+    icon: Fish,
+  }));
+
   const form = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchema),
     defaultValues: defaultCreateItemValues,
@@ -64,6 +75,8 @@ export function CreateItemForm() {
 
     form.setValue('images', sortedImages);
   };
+
+  const fileRef = form.register('guia_de_talles');
 
   return (
     <Form {...form}>
@@ -126,8 +139,9 @@ export function CreateItemForm() {
         <div className='flex flex-col gap-2'>
           <label htmlFor='images' className=''>
             Images
-            <div className='flex w-full cursor-pointer items-center justify-center rounded-lg border border-border p-2 transition hover:-translate-y-1'>
-              add image
+            <div className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-neutral-100 p-2 transition hover:-translate-y-1'>
+              <PictureMiniIcon />
+              <span>add image</span>
             </div>
             <input
               onChange={(e) => {
@@ -141,27 +155,75 @@ export function CreateItemForm() {
               type='file'
             />
           </label>
-          <DndContext
-            onDragEnd={handleDragEnd}
-            collisionDetection={closestCorners}>
-            <ul className='flex flex-col divide-y overflow-hidden rounded-lg border border-border'>
-              <SortableContext
-                strategy={verticalListSortingStrategy}
-                items={form
-                  .watch('images')
-                  .map((image) => ({ id: image.name }))}>
-                {form.watch('images').map((image) => (
-                  <SortableImageItem
-                    onDeleteImage={handleDeleteImage}
-                    image={image}
-                    key={image.name}
-                    id={image.name}
-                  />
-                ))}
-              </SortableContext>
-            </ul>
-          </DndContext>
+          {form.watch('images').length > 0 ? (
+            <DndContext
+              onDragEnd={handleDragEnd}
+              collisionDetection={closestCorners}>
+              <ul className='flex flex-col divide-y overflow-hidden rounded-lg border border-border'>
+                <SortableContext
+                  strategy={verticalListSortingStrategy}
+                  items={form
+                    .watch('images')
+                    .map((image) => ({ id: image.name }))}>
+                  {form.watch('images').map((image) => (
+                    <SortableImageItem
+                      onDeleteImage={handleDeleteImage}
+                      image={image}
+                      key={image.name}
+                      id={image.name}
+                    />
+                  ))}
+                </SortableContext>
+              </ul>
+            </DndContext>
+          ) : (
+            <div className='mx-auto text-sm'>No images uploaded</div>
+          )}
         </div>
+        <FormField
+          control={form.control}
+          name='guia_de_talles'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Guia de talles</FormLabel>
+              <FormControl>
+                <Input
+                  type='file'
+                  placeholder='new t-shirt'
+                  {...fileRef}
+                  // {...field}
+                  onChange={(event) => {
+                    field.onChange(event.target?.files?.[0] ?? undefined);
+                  }}
+                />
+              </FormControl>
+              <FormDescription>item description.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='talles'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Size</FormLabel>
+              <FormControl>
+                <MultiSelect
+                  {...field}
+                  options={tallesList}
+                  onValueChange={(e) => form.setValue('talles', e)}
+                  defaultValue={[]}
+                  placeholder='Select frameworks'
+                  variant='inverted'
+                  animation={2}
+                  maxCount={3}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type='submit'>Submit</Button>
       </form>
     </Form>
