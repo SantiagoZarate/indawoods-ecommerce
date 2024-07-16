@@ -1,5 +1,5 @@
-import { ItemDelete, ItemInsert, ItemUpdate } from '@/types/item';
-import { ItemDTO } from '../shared/dto/item';
+import { ItemDelete, ItemInsert, ItemUpdate } from '../types/item';
+import { ItemDTO } from '../shared/dto/itemDTO';
 
 export interface ItemRepositoryInterface {
   getAll(): Promise<ItemDTO>;
