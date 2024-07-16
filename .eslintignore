@@ -1,0 +1,5 @@
+supabase/*
+node_modules/*
+build/*
+dist/*
+.env*
