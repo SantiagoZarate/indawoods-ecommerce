@@ -18,8 +18,16 @@ const imageSchema = z
 
 export const createItemSchema = z.object({
   category: z.enum(categories),
-  name: z.string(),
-  description: z.string(),
+  name: z
+    .string()
+    .min(4, { message: 'Item name should be larger than 4 characters' }),
+  description: z
+    .string()
+    .min(4, { message: 'Item description should be larger than 4 characters' }),
+  talles: z
+    .string()
+    .array()
+    .min(1, { message: 'Item must be available in at least one size' }),
   guia_de_talles: imageSchema.optional(),
   images: imageSchema
     .array()
@@ -27,3 +35,12 @@ export const createItemSchema = z.object({
 });
 
 export type CreateItemSchema = z.infer<typeof createItemSchema>;
+
+export const defaultCreateItemValues = {
+  category: undefined,
+  talle: [],
+  description: '',
+  images: [],
+  name: '',
+  guia_de_talles: undefined,
+};
