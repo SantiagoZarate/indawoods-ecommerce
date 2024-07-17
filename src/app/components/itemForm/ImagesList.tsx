@@ -11,22 +11,25 @@ import { SortableImageItem } from '../../(app)/dashboard/create/SortableItemImag
 interface Props {
   images: string[];
   onDeleteDisplayImage: (name: string) => void;
+  onSortImages: (images: string[]) => void;
 }
 
-export function ImagesList({ images, onDeleteDisplayImage }: Props) {
+export function ImagesList({
+  images,
+  onDeleteDisplayImage,
+  onSortImages,
+}: Props) {
   const form = useFormContext<CreateItemSchema>();
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id === over?.id || !over) return;
 
-    const images = form.getValues('images');
-
-    const activePos = images.findIndex((image) => image.name === active.id);
-    const overPos = images.findIndex((image) => image.name === over.id);
+    const activePos = images.findIndex((image) => image === active.id);
+    const overPos = images.findIndex((image) => image === over.id);
 
     const sortedImages = arrayMove(images, activePos, overPos);
 
-    form.setValue('images', sortedImages);
+    onSortImages(sortedImages);
   };
 
   const handleDeleteImage = (imageName: string) => {
@@ -41,7 +44,7 @@ export function ImagesList({ images, onDeleteDisplayImage }: Props) {
       <ul className='flex flex-col divide-y overflow-hidden rounded-lg border border-border'>
         <SortableContext
           strategy={verticalListSortingStrategy}
-          items={form.watch('images').map((image) => ({ id: image.name }))}>
+          items={images.map((image) => ({ id: image }))}>
           {images.map((image) => (
             <SortableImageItem
               onDeleteImage={handleDeleteImage}

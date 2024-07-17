@@ -13,6 +13,10 @@ export function ImagesField() {
     setDisplayImages(displayImages.filter((image) => image !== name));
   };
 
+  const updateImagesOrder = (newSortedImages: string[]) => {
+    setDisplayImages(newSortedImages);
+  };
+
   return (
     <div className='flex flex-col gap-2'>
       <label htmlFor='images' className=''>
@@ -39,6 +43,7 @@ export function ImagesField() {
         <ImagesList
           images={displayImages}
           onDeleteDisplayImage={onDeleteDisplayImage}
+          onSortImages={updateImagesOrder}
         />
       ) : (
         <div className='mx-auto text-sm'>No images uploaded</div>
