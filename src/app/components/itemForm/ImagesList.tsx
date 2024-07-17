@@ -8,7 +8,12 @@ import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
 import { SortableImageItem } from '../../(app)/dashboard/create/SortableItemImage';
 
-export function ImagesList() {
+interface Props {
+  images: string[];
+  onDeleteDisplayImage: (name: string) => void;
+}
+
+export function ImagesList({ images, onDeleteDisplayImage }: Props) {
   const form = useFormContext<CreateItemSchema>();
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
@@ -28,6 +33,7 @@ export function ImagesList() {
     const prevImages = form.getValues('images');
     const newImages = prevImages.filter((img) => img.name !== imageName);
     form.setValue('images', newImages);
+    onDeleteDisplayImage(imageName);
   };
 
   return (
@@ -36,12 +42,12 @@ export function ImagesList() {
         <SortableContext
           strategy={verticalListSortingStrategy}
           items={form.watch('images').map((image) => ({ id: image.name }))}>
-          {form.watch('images').map((image) => (
+          {images.map((image) => (
             <SortableImageItem
               onDeleteImage={handleDeleteImage}
-              image={image}
-              key={image.name}
-              id={image.name}
+              displayImage={image}
+              key={image}
+              id={image}
             />
           ))}
         </SortableContext>

@@ -1,4 +1,3 @@
-import { ItemImage } from '@/(app)/dashboard/create/SortableItemImage';
 import {
   FormControl,
   FormDescription,
@@ -13,6 +12,7 @@ import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
 import { PictureMiniIcon } from '../icons/PictureMiniIcon';
+import { ItemImage } from './ItemImage';
 
 export function GuiaDeTallesField() {
   const [preview, setPreview] = useState('');
@@ -34,10 +34,14 @@ export function GuiaDeTallesField() {
             </div>
           </FormLabel>
           <article className='flex items-center gap-2'>
-            <ItemImage
-              imageSRC={preview}
-              onDeleteImage={() => setPreview('')}
-            />
+            {preview ? (
+              <ItemImage
+                imageSRC={preview}
+                onDeleteImage={() => setPreview('')}
+              />
+            ) : (
+              <div className='mx-auto text-sm'>No image uploaded</div>
+            )}
             <FormControl>
               <Input
                 className='hidden'
