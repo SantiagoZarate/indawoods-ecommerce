@@ -41,7 +41,7 @@ export type CreateItemSchema = z.infer<typeof createItemSchema>;
 
 export const defaultCreateItemValues = {
   category: undefined,
-  talle: [],
+  talle: undefined,
   description: '',
   images: [
     new File(

@@ -4,6 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { TrashIcon } from 'lucide-react';
 import { PropsWithChildren } from 'react';
+import { PreviewImage } from '@/components/ui/previewImage';
 
 interface Props extends PropsWithChildren {
   id: UniqueIdentifier;
@@ -30,26 +31,37 @@ export function SortableImageItem({ image, id, onDeleteImage }: Props) {
         className='h-full cursor-pointer border-r border-border p-6 hover:bg-neutral-200'>
         <DraggableIcon />
       </div>
-      <div className='flex flex-1 items-center gap-4 px-2'>
-        <picture className=''>
-          <img
-            src={image.name}
-            className='aspect-square size-16 items-center justify-center rounded-lg border border-border object-cover'
-          />
-        </picture>
+      <ItemImage
+        imageSRC={image.name}
+        onDeleteImage={() => onDeleteImage(image.name)}
+      />
+    </li>
+  );
+}
+
+interface Propss extends PropsWithChildren {
+  imageSRC: string;
+  onDeleteImage: () => void;
+}
+
+export function ItemImage({ imageSRC, onDeleteImage }: Propss) {
+  return (
+    <article className='flex flex-1 justify-between'>
+      <div className='flex items-center gap-4 px-2'>
+        <PreviewImage src={imageSRC} />
         <div className='flex flex-col gap-2'>
           <p className='text-sm font-bold'>Name</p>
-          <p className='text-xs'>{image.name}</p>
+          <p className='text-xs'>{imageSRC}</p>
         </div>
       </div>
       <div className='flex items-center px-4'>
         <button
           type='button'
-          onClick={() => onDeleteImage(image.name)}
+          onClick={onDeleteImage}
           className='z-50 rounded-lg border border-border p-2 transition hover:border-primary'>
           <TrashIcon />
         </button>
       </div>
-    </li>
+    </article>
   );
 }
