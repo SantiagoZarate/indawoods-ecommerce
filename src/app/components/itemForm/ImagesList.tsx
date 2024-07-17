@@ -1,42 +1,42 @@
 import { DndContext, DragEndEvent, closestCorners } from '@dnd-kit/core';
 import {
   SortableContext,
-  arrayMove,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
 import { SortableImageItem } from '../../(app)/dashboard/create/SortableItemImage';
 
-interface Props {
-  images: string[];
-  onDeleteDisplayImage: (name: string) => void;
-  onSortImages: (images: string[]) => void;
-}
-
-export function ImagesList({
-  images,
-  onDeleteDisplayImage,
-  onSortImages,
-}: Props) {
+export function ImagesList() {
   const form = useFormContext<CreateItemSchema>();
+
+  const displayImages = form
+    .watch('images')
+    .map((imageFile) => URL.createObjectURL(imageFile));
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id === over?.id || !over) return;
 
-    const activePos = images.findIndex((image) => image === active.id);
-    const overPos = images.findIndex((image) => image === over.id);
+    const activePos = displayImages.findIndex((image) => image === active.id);
+    const overPos = displayImages.findIndex((image) => image === over.id);
 
-    const sortedImages = arrayMove(images, activePos, overPos);
+    const images = form.getValues('images');
 
-    onSortImages(sortedImages);
+    const activeImage = images[activePos];
+    const overImage = images[overPos];
+
+    images[activePos] = overImage;
+    images[overPos] = activeImage;
+
+    form.setValue('images', images);
   };
 
-  const handleDeleteImage = (imageName: string) => {
+  const handleDeleteImage = (index: number) => {
     const prevImages = form.getValues('images');
-    const newImages = prevImages.filter((img) => img.name !== imageName);
-    form.setValue('images', newImages);
-    onDeleteDisplayImage(imageName);
+    const firstHalf = prevImages.slice(0, index);
+    const secondHalf = prevImages.slice(index + 1);
+
+    form.setValue('images', firstHalf.concat(secondHalf));
   };
 
   return (
@@ -44,10 +44,10 @@ export function ImagesList({
       <ul className='flex flex-col divide-y overflow-hidden rounded-lg border border-border'>
         <SortableContext
           strategy={verticalListSortingStrategy}
-          items={images.map((image) => ({ id: image }))}>
-          {images.map((image) => (
+          items={displayImages.map((image) => ({ id: image }))}>
+          {displayImages.map((image, index) => (
             <SortableImageItem
-              onDeleteImage={handleDeleteImage}
+              onDeleteImage={() => handleDeleteImage(index)}
               displayImage={image}
               key={image}
               id={image}

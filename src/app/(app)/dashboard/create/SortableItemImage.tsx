@@ -7,7 +7,7 @@ import { PropsWithChildren } from 'react';
 
 interface Props extends PropsWithChildren {
   id: UniqueIdentifier;
-  onDeleteImage: (name: string) => void;
+  onDeleteImage: () => void;
   displayImage: string;
 }
 
@@ -32,7 +32,7 @@ export function SortableImageItem({ displayImage, id, onDeleteImage }: Props) {
       </div>
       <ItemImage
         imageSRC={displayImage}
-        onDeleteImage={() => onDeleteImage(displayImage)}
+        onDeleteImage={() => onDeleteImage()}
       />
     </li>
   );
