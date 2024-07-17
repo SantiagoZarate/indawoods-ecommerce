@@ -50,9 +50,9 @@ export function GuiaDeTallesField() {
                 {...fileRef}
                 accept='image/*'
                 onChange={(event) => {
-                  const { files, displayUrl } = getImageData(event);
+                  const { file, displayUrl } = getImageData(event);
                   setPreview(displayUrl);
-                  field.onChange(files);
+                  field.onChange(file);
                 }}
               />
             </FormControl>

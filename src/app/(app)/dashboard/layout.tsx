@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import { PropsWithChildren } from 'react';
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
@@ -11,6 +12,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
         this is a sidebar
       </aside>
       <main className='flex-1 bg-neutral-50 p-6'>{children}</main>
+      <Toaster />
     </section>
   );
 }

@@ -21,6 +21,7 @@
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
     "@supabase/ssr": "0.4.0",
     "@supabase/supabase-js": "2.44.4",
     "class-variance-authority": "^0.7.0",
@@ -34,7 +35,9 @@
     "supabase": "1.183.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zsa": "0.5.1",
+    "zsa-react": "0.2.2"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",

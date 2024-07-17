@@ -24,11 +24,24 @@ export const createItemSchema = z.object({
     .string()
     .array()
     .min(1, { message: 'Item must be available in at least one size' }),
-  guia_de_talles: z.instanceof(FileList).optional(),
+});
+
+export const createItemSchemaClient = createItemSchema.extend({
+  guia_de_talles: z.instanceof(File).optional(),
   images: imageSchema,
 });
 
-export type CreateItemSchema = z.infer<typeof createItemSchema>;
+export type CreateItemSchema = z.infer<typeof createItemSchemaClient>;
+
+export const createItemSchemaServer = createItemSchema.extend({
+  imagesURL: z.array(
+    z.object({
+      publicUrl: z.string().url(),
+      sort_order: z.coerce.number().min(1),
+    }),
+  ),
+  guiaDeTallesPublicURL: z.string().url().optional(),
+});
 
 export const defaultCreateItemValues = {
   category: undefined,
@@ -38,12 +51,3 @@ export const defaultCreateItemValues = {
   name: '',
   guia_de_talles: undefined,
 };
-
-// new File(
-//   [],
-//   'https://www.mrporter.com/variants/images/3633577411310824/in/w2000_q60.jpg',
-// ),
-// new File(
-//   [],
-//   'https://www.collinsdictionary.com/images/full/tshirt_204029461_1000.jpg',
-// ),
