@@ -1,7 +1,9 @@
 import { ImageRepositoryInterface, ItemRepositoryInterface } from '../repository';
+import { TalleRepository } from '../repository/TalleRepository';
 import { ImageRepository } from '../repository/imageRepository';
 import { ItemRepository } from '../repository/itemRepository';
 import { ItemTalleRepository } from '../repository/itemTalleRepository';
+import { TalleService } from './TalleService';
 import { ImageService } from './imageService';
 import { ItemService } from './itemService';
 import { ItemTalleService } from './itemTalleService';
@@ -10,12 +12,14 @@ interface ServicesMap {
   imageService: ImageService;
   itemService: ItemService;
   itemTalleService: ItemTalleService;
+  talleService: TalleService;
 }
 
 interface RepositoryMap {
   imageRepository: ImageRepositoryInterface;
   itemRepository: ItemRepositoryInterface;
   itemTalleRepository: ItemTalleRepository;
+  talleRepository: TalleRepository;
 }
 
 export class ServiceLocator {
@@ -37,6 +41,10 @@ export class ServiceLocator {
       const itemTalleRepository = this.getOrCreateRepository('itemTalleRepository');
       return new ItemTalleService(itemTalleRepository);
     },
+    talleService: () => {
+      const talleRepository = this.getOrCreateRepository('talleRepository');
+      return new TalleService(talleRepository);
+    },
   };
 
   private static _repositoryFactory: {
@@ -45,6 +53,7 @@ export class ServiceLocator {
     itemRepository: () => new ItemRepository(),
     imageRepository: () => new ImageRepository(),
     itemTalleRepository: () => new ItemTalleRepository(),
+    talleRepository: () => new TalleRepository(),
   };
 
   private static getOrCreateRepository<K extends keyof RepositoryMap>(

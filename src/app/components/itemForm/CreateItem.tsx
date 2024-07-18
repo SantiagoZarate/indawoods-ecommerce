@@ -6,7 +6,7 @@ import { useServerAction } from 'zsa-react';
 
 import { createItem } from '@/(app)/dashboard/create/actions';
 import { Button } from '@/components/ui/button';
-import { createClient } from '../../../utils/supabase/client';
+import { uploadImage } from '@/lib/uploadImage';
 import {
   createItemSchemaClient,
   defaultCreateItemValues,
@@ -19,31 +19,13 @@ import { GuiaDeTallesField } from './GuiaDeTallesField';
 import { ImagesField } from './ImagesField';
 import { NameField } from './NameField';
 import { SizeField } from './SizeField';
+import { TalleDTO } from '../../../shared/dto/talleDTO';
 
-// TODO - GET Sizes from db
-const talles = ['XL', 'M', 'S'];
-
-async function uploadImage(image: File, imageName: string): Promise<string> {
-  const supabase = createClient();
-
-  const { error } = await supabase.storage.from('ecommerce').upload(imageName, image, {
-    cacheControl: '3600',
-    upsert: true,
-  });
-
-  if (error) {
-    throw new Error('');
-  }
-
-  const {
-    data: { publicUrl },
-  } = await supabase.storage.from('ecommerce').getPublicUrl(imageName);
-
-  console.log(publicUrl);
-  return publicUrl;
+interface Props {
+  talles: TalleDTO[];
 }
 
-export function CreateItemForm() {
+export function CreateItemForm({ talles }: Props) {
   const form = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchemaClient),
     defaultValues: defaultCreateItemValues,
@@ -61,8 +43,6 @@ export function CreateItemForm() {
 
   const onSubmit = async (newItem: CreateItemSchema) => {
     const { images, guia_de_talles, name } = newItem;
-    console.log(guia_de_talles);
-    let publicImagesURLs: { publicUrl: string; sort_order: number }[] = [];
 
     const uploadImages = images.map(async (image: File, index: number) => {
       const imageName = `items/${name}-${new Date().toISOString()}`;
@@ -74,12 +54,14 @@ export function CreateItemForm() {
       };
     });
 
-    publicImagesURLs = await Promise.all(uploadImages);
-    console.log(publicImagesURLs);
+    const publicImagesURLs = await Promise.all(uploadImages);
 
-    const guiaDeTallesPublicURL =
-      guia_de_talles &&
-      (await uploadImage(guia_de_talles, `talles/${name}-guia-de-talles-${new Date()}`));
+    const guiaDeTallesPublicExists = (guia_de_talles as FileList).length !== 0;
+    console.log(guia_de_talles);
+
+    const guiaDeTallesPublicURL = guiaDeTallesPublicExists
+      ? await uploadImage(guia_de_talles, `talles/${name}-guia-de-talles`)
+      : undefined;
 
     execute({
       category: newItem.category,

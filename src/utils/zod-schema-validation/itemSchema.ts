@@ -25,7 +25,14 @@ export const createItemSchema = z.object({
 });
 
 export const createItemSchemaClient = createItemSchema.extend({
-  guia_de_talles: z.instanceof(File).optional(),
+  guia_de_talles: z
+    .any()
+    .optional()
+    .refine(
+      (file) =>
+        file.length == 1 ? (file[0]?.size <= 5 * 1024 * 1024 ? true : false) : true,
+      'Max file size allowed is 5MB.',
+    ),
   images: imageSchema,
 });
 

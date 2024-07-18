@@ -9,17 +9,18 @@ import { MultiSelect } from '@/components/ui/multiSelect';
 import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
 import { Fish } from 'lucide-react';
+import { TalleDTO } from '../../../shared/dto/talleDTO';
 
 interface Props {
-  talles: string[];
+  talles: TalleDTO[];
 }
 
 export function SizeField({ talles }: Props) {
   const form = useFormContext<CreateItemSchema>();
 
   const tallesList = talles.map((talle) => ({
-    value: talle,
-    label: talle,
+    value: talle.medida,
+    label: talle.medida,
     icon: Fish,
   }));
 
