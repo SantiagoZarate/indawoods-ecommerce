@@ -2,6 +2,10 @@ import { ItemRepositoryInterface } from '.';
 import { Tables } from '../../supabase/types';
 import { ItemDTO, itemSchemaDTO } from '../shared/dto/itemDTO';
 import { ItemImageDTO, itemImageSchemaDTO } from '../shared/dto/itemImageDTO';
+import {
+  ItemImagenTalleDTO,
+  itemImagenTalleSchemaDTO,
+} from '../shared/dto/itemImagenTalleDTO';
 import { ItemDelete, ItemInsert, ItemUpdate } from '../types/item';
 import { createClient } from '../utils/supabase/server';
 
@@ -23,20 +27,22 @@ export class ItemRepository implements ItemRepositoryInterface {
     return data.map((d) => itemImageSchemaDTO.parse(d));
   }
 
-  async getOne({ id }: ItemDelete): Promise<ItemDTO> {
+  async getOne({ id }: ItemDelete): Promise<ItemImagenTalleDTO> {
     const db = await createClient();
 
     const { data, error } = await db
       .from(this._tableName)
-      .select<'*', Tables<'item'>>('*')
+      .select('*,imagen(*),item_talle(*)')
       .eq('id', id)
       .single();
 
     if (error) {
+      console.log(error);
       throw new Error('Error getting item with id: ' + id);
     }
 
-    return itemSchemaDTO.parse(data);
+    console.log(data);
+    return itemImagenTalleSchemaDTO.parse(data);
   }
 
   async create(payload: ItemInsert): Promise<ItemDTO> {

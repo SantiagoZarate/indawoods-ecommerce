@@ -44,4 +44,9 @@ export class ItemService {
     const results = this._itemRepository.getAll();
     return results;
   }
+
+  async getOne(id: number) {
+    const result = this._itemRepository.getOne({ id });
+    return result;
+  }
 }

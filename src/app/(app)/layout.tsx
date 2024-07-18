@@ -16,8 +16,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${inter.className} flex min-h-screen flex-col bg-neutral-900`}>
+      <body
+        className={`${inter.className} flex min-h-screen flex-col bg-neutral-900 text-neutral-100`}>
         <section className='w-full'>{children}</section>
+        <footer className='w-full border-t border-border pb-20 pt-8'>
+          <section className='mx-auto flex max-w-screen-xl justify-between'>
+            <p>Indawoods store</p>
+            <nav>put some links here</nav>
+          </section>
+        </footer>
       </body>
     </html>
   );
