@@ -44,7 +44,7 @@ export class ItemRepository implements ItemRepositoryInterface {
     const { data, error } = await db
       .from(this._tableName)
       .insert(payload)
-      .select('*')
+      .select<'*', Tables<'item'>>('*')
       .single();
 
     if (error) {
@@ -64,6 +64,7 @@ export class ItemRepository implements ItemRepositoryInterface {
       .single();
 
     if (error) {
+      console.log(error);
       throw new Error('Error');
     }
 

@@ -14,9 +14,7 @@ const imageSchema = z
 
 export const createItemSchema = z.object({
   category: z.enum(categories),
-  name: z
-    .string()
-    .min(4, { message: 'Item name should be larger than 4 characters' }),
+  name: z.string().min(4, { message: 'Item name should be larger than 4 characters' }),
   description: z
     .string()
     .min(4, { message: 'Item description should be larger than 4 characters' }),
@@ -42,6 +40,8 @@ export const createItemSchemaServer = createItemSchema.extend({
   ),
   guiaDeTallesPublicURL: z.string().url().optional(),
 });
+
+export type CreateItemSchemaServer = z.infer<typeof createItemSchemaServer>;
 
 export const defaultCreateItemValues = {
   category: undefined,

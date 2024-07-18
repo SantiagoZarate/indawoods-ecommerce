@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const itemSchemaDTO = z.object({
-  id: z.string(),
+  id: z.number(),
   category: z.string(),
   description: z.string(),
   name: z.string(),

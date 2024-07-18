@@ -47,6 +47,7 @@ export class ImageRepository implements ImageRepositoryInterface {
       .single();
 
     if (error) {
+      console.log(error);
       throw new Error('Error');
     }
 

@@ -1,37 +1,42 @@
 import { ItemRepositoryInterface } from '../repository';
-import { ItemImageTalleInsert } from '../types/itemImage';
+import { CreateItemSchemaServer } from '../utils/zod-schema-validation/itemSchema';
 import { ServiceLocator } from './serviceLocator';
 
 export class ItemService {
   constructor(private _itemRepository: ItemRepositoryInterface) {}
 
-  async create(data: ItemImageTalleInsert) {
-    const newItem = await this._itemRepository.create({
-      category: data.category,
-      description: data.description,
-      guia_de_talles: data.guia_de_talles,
-      name: data.name,
-    });
+  async create(data: CreateItemSchemaServer) {
+    console.log('CREANDO ITEM');
+    await this._itemRepository
+      .create({
+        category: data.category,
+        description: data.description,
+        guia_de_talles: data.guiaDeTallesPublicURL ?? '',
+        name: data.name,
+      })
+      .then((res) => {
+        const imageService = ServiceLocator.getService('imageService');
+        const itemTalleService = ServiceLocator.getService('itemTalleService');
 
-    const imageService = ServiceLocator.getService('imageService');
+        console.log('CREANDO IMAGENES');
+        data.imagesURL.forEach(async (image) => {
+          await imageService.create({
+            item_id: Number(res.id),
+            sort_position: image.sort_order,
+            url: image.publicUrl,
+          });
+        });
 
-    data.images.forEach(async (image) => {
-      await imageService.create({
-        item_id: Number(newItem.id),
-        sort_position: image.sort_position,
-        url: image.url,
+        console.log('CREANDO RELACION ITEM TALLE');
+        data.talles.forEach(async (talle) => {
+          await itemTalleService.create({
+            medida: talle,
+            id: Number(res.id),
+          });
+        });
+      })
+      .catch((e) => {
+        console.log(e);
       });
-    });
-
-    const itemTalleService = ServiceLocator.getService('itemTalleService');
-
-    data.talles.forEach(async (talle) => {
-      await itemTalleService.create({
-        medida: talle.medida,
-        id: Number(newItem.id),
-      });
-    });
-
-    console.log(newItem);
   }
 }

@@ -26,12 +26,10 @@ const talles = ['XL', 'M', 'S'];
 async function uploadImage(image: File, imageName: string): Promise<string> {
   const supabase = createClient();
 
-  const { error } = await supabase.storage
-    .from('ecommerce')
-    .upload(imageName, image, {
-      cacheControl: '3600',
-      upsert: true,
-    });
+  const { error } = await supabase.storage.from('ecommerce').upload(imageName, image, {
+    cacheControl: '3600',
+    upsert: true,
+  });
 
   if (error) {
     throw new Error('');
@@ -81,7 +79,7 @@ export function CreateItemForm() {
 
     const guiaDeTallesPublicURL =
       guia_de_talles &&
-      (await uploadImage(guia_de_talles, `talles/${name}-guia-de-talles`));
+      (await uploadImage(guia_de_talles, `talles/${name}-guia-de-talles-${new Date()}`));
 
     execute({
       category: newItem.category,
@@ -95,9 +93,7 @@ export function CreateItemForm() {
 
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='flex flex-col space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-8'>
         <NameField />
         <DescriptionField />
         <CategoryField />
