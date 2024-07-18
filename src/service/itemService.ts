@@ -39,4 +39,9 @@ export class ItemService {
         console.log(e);
       });
   }
+
+  async getAllForHomepage() {
+    const results = this._itemRepository.getAll();
+    return results;
+  }
 }

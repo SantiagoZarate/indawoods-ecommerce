@@ -1,5 +1,6 @@
 import { ImageDTO } from '../shared/dto/imageDTO';
 import { ItemDTO } from '../shared/dto/itemDTO';
+import { ItemImageDTO } from '../shared/dto/itemImageDTO';
 import { ImageDelete, ImageInsert, ImageUpdate } from '../types/imagen';
 import { ItemDelete, ItemInsert, ItemUpdate } from '../types/item';
 
@@ -14,7 +15,9 @@ export interface BaseInterface<DTO, Delete, Insert, Update> {
 }
 
 export interface ItemRepositoryInterface
-  extends BaseInterface<ItemDTO, ItemDelete, ItemInsert, ItemUpdate> {
+  extends Omit<BaseInterface<ItemDTO, ItemDelete, ItemInsert, ItemUpdate>, 'getAll'> {
+  getAll(): Promise<ItemImageDTO[]>;
+
   delete(id: ItemDelete): Promise<ItemDTO>;
 }
 

@@ -45,7 +45,7 @@ export function CreateItemForm({ talles }: Props) {
     const { images, guia_de_talles, name } = newItem;
 
     const uploadImages = images.map(async (image: File, index: number) => {
-      const imageName = `items/${name}-${new Date().toISOString()}`;
+      const imageName = `items/${name}-${new Date().toISOString()}-${index}`;
       const publicUrl = await uploadImage(image, imageName);
 
       return {

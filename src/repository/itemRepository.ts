@@ -1,6 +1,7 @@
 import { ItemRepositoryInterface } from '.';
 import { Tables } from '../../supabase/types';
 import { ItemDTO, itemSchemaDTO } from '../shared/dto/itemDTO';
+import { ItemImageDTO, itemImageSchemaDTO } from '../shared/dto/itemImageDTO';
 import { ItemDelete, ItemInsert, ItemUpdate } from '../types/item';
 import { createClient } from '../utils/supabase/server';
 
@@ -9,17 +10,17 @@ export class ItemRepository implements ItemRepositoryInterface {
 
   constructor() {}
 
-  async getAll(): Promise<ItemDTO[]> {
+  async getAll(): Promise<ItemImageDTO[]> {
     const db = await createClient();
-    const { data, error } = await db
-      .from(this._tableName)
-      .select<'*', Tables<'item'>>('*');
+    const { data, error } = await db.from(this._tableName).select('*, imagen(*)');
 
     if (error) {
+      console.log(error);
       throw new Error('Error getting all items');
     }
+    console.log(data);
 
-    return data.map((d) => itemSchemaDTO.parse(d));
+    return data.map((d) => itemImageSchemaDTO.parse(d));
   }
 
   async getOne({ id }: ItemDelete): Promise<ItemDTO> {

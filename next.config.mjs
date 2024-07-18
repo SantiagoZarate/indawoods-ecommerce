@@ -1,20 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
+    remotePatterns : [
       {
-        protocol: 'https',
-        hostname: 'www.mrporter.com',
-        port: '',
-        pathname: '/variants/images/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.collinsdictionary.com',
-        port: '',
-        pathname: '/images/full/**',
-      },
-    ],
+        hostname: `${process.env.NEXT_SUPABASE_PROJECT_ID}.supabase.co` ,
+        pathname: '/storage/v1/object/public/ecommerce/**',
+        port: "",
+        protocol: "https"
+      }
+    ]
   },
 };
 

@@ -3,7 +3,7 @@ import { itemSchemaDTO } from './itemDTO';
 import { imageSchemaDTO } from './imageDTO';
 
 export const itemImageSchemaDTO = itemSchemaDTO.extend({
-  images: z.array(imageSchemaDTO).optional(),
+  imagen: z.array(imageSchemaDTO),
 });
 
 export type ItemImageDTO = z.infer<typeof itemImageSchemaDTO>;
