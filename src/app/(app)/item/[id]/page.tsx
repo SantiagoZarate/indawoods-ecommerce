@@ -11,9 +11,7 @@ interface Params {
 
 export default async function ItemPage({ params: { id } }: Params) {
   const itemService = ServiceLocator.getService('itemService');
-  const item = await itemService.getOne(id);
-
-  console.log(item);
+  const item = await itemService.getOneVisible(id);
 
   if (!item) {
     return <p>there is no item</p>;

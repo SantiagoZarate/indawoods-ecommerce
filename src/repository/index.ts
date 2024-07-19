@@ -3,7 +3,7 @@ import { ItemDTO } from '../shared/dto/itemDTO';
 import { ItemImageDTO } from '../shared/dto/itemImageDTO';
 import { ItemImagenTalleDTO } from '../shared/dto/itemImagenTalleDTO';
 import { ImageDelete, ImageInsert, ImageUpdate } from '../types/imagen';
-import { ItemDelete, ItemInsert, ItemUpdate } from '../types/item';
+import { ItemDelete, ItemInsert, ItemToggleVisibility, ItemUpdate } from '../types/item';
 
 export interface BaseInterface<DTO, Delete, Insert, Update> {
   getAll(): Promise<DTO[]>;
@@ -23,6 +23,8 @@ export interface ItemRepositoryInterface
   getAll(): Promise<ItemImageDTO[]>;
 
   getAllVisible(): Promise<ItemImageDTO[]>;
+
+  toggleVisibility(data: ItemToggleVisibility): Promise<ItemDTO>;
 
   getOne(id: ItemDelete): Promise<ItemImagenTalleDTO>;
 

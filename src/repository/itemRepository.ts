@@ -6,7 +6,7 @@ import {
   ItemImagenTalleDTO,
   itemImagenTalleSchemaDTO,
 } from '../shared/dto/itemImagenTalleDTO';
-import { ItemDelete, ItemInsert, ItemUpdate } from '../types/item';
+import { ItemDelete, ItemInsert, ItemToggleVisibility, ItemUpdate } from '../types/item';
 import { createClient } from '../utils/supabase/server';
 
 export class ItemRepository implements ItemRepositoryInterface {
@@ -108,5 +108,22 @@ export class ItemRepository implements ItemRepositoryInterface {
     }
 
     return data.map((d) => itemImageSchemaDTO.parse(d));
+  }
+
+  async toggleVisibility({ id, visible }: ItemToggleVisibility): Promise<ItemDTO> {
+    const db = await createClient();
+
+    const { data, error } = await db
+      .from(this._tableName)
+      .update({ visible: !visible })
+      .eq('id', id)
+      .select('*')
+      .single();
+
+    if (error) {
+      throw new Error('Error updating item visibility');
+    }
+
+    return itemSchemaDTO.parse(data);
   }
 }

@@ -7,3 +7,4 @@ export type ItemInsert = Pick<
 >;
 export type ItemDelete = Pick<ItemRaw, 'id'>;
 export type ItemUpdate = ItemInsert & Pick<ItemRaw, 'id'>;
+export type ItemToggleVisibility = Pick<ItemRaw, 'id' | 'visible'>;
