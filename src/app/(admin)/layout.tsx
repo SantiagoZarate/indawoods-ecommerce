@@ -1,8 +1,8 @@
-import { Footer } from '@/components/common/footer';
-import { Header } from '@/components/common/header';
+import { Toaster } from '@/components/ui/toaster';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
+import { AsideMenu } from '@/components/common/asideMenu/AsideMenu';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,11 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${inter.className} flex min-h-screen flex-col bg-background text-primary`}>
-        <Header />
-        <section className='mt-20 w-full'>{children}</section>
-        <Footer />
+      <body className={`${inter.className} flex min-h-screen bg-background text-primary`}>
+        <AsideMenu />
+        <main className='flex-1 bg-neutral-50 p-6'>{children}</main>
+        <Toaster />
       </body>
     </html>
   );

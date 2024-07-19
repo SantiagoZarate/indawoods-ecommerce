@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useServerAction } from 'zsa-react';
 
-import { createItem } from '@/(app)/dashboard/create/actions';
 import { Button } from '@/components/ui/button';
 import { uploadImage } from '@/lib/uploadImage';
 import {
@@ -20,6 +19,7 @@ import { ImagesField } from './ImagesField';
 import { NameField } from './NameField';
 import { SizeField } from './SizeField';
 import { TalleDTO } from '../../../shared/dto/talleDTO';
+import { createItem } from '@/(admin)/create/actions';
 
 interface Props {
   talles: TalleDTO[];

@@ -1,11 +1,8 @@
 import { DndContext, DragEndEvent, closestCorners } from '@dnd-kit/core';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
-import { SortableImageItem } from '../../(app)/dashboard/create/SortableItemImage';
+import { SortableImageItem } from '@/(admin)/create/SortableItemImage';
 
 export function ImagesList() {
   const form = useFormContext<CreateItemSchema>();
