@@ -6,7 +6,7 @@ export default async function DashboardPage() {
   const items = await itemService.getAll();
 
   return (
-    <section>
+    <section className='min-h-screen'>
       <ul className='flex flex-col divide-y'>
         {items.map((item) => (
           <li key={item.id} className='flex items-center justify-between p-4'>
