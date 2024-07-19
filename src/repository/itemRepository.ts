@@ -94,4 +94,19 @@ export class ItemRepository implements ItemRepositoryInterface {
 
     return itemSchemaDTO.parse(data);
   }
+
+  async getAllVisible(): Promise<ItemImageDTO[]> {
+    const db = await createClient();
+
+    const { data, error } = await db
+      .from(this._tableName)
+      .select('*,imagen(*)')
+      .eq('visible', true);
+
+    if (error) {
+      throw new Error('Error getting all visible items');
+    }
+
+    return data.map((d) => itemImageSchemaDTO.parse(d));
+  }
 }

@@ -40,8 +40,13 @@ export class ItemService {
       });
   }
 
-  async getAllForHomepage() {
+  async getAll() {
     const results = this._itemRepository.getAll();
+    return results;
+  }
+
+  async getAllVisible() {
+    const results = this._itemRepository.getAllVisible();
     return results;
   }
 

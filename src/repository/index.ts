@@ -22,6 +22,8 @@ export interface ItemRepositoryInterface
   > {
   getAll(): Promise<ItemImageDTO[]>;
 
+  getAllVisible(): Promise<ItemImageDTO[]>;
+
   getOne(id: ItemDelete): Promise<ItemImagenTalleDTO>;
 
   delete(id: ItemDelete): Promise<ItemDTO>;
