@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.hoverable{
+  transition: opacity 150ms, translate 150ms;
+}
+
+.hoverable:hover {
+  transform: translateY(-2px);
+  opacity: 50%;
+  transition: opacity 150ms, translate 150ms;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import Link from 'next/link';
+import { InstagramIcon } from '@/components/icons/InstagramIcon';
+import { TiktokIcon } from '@/components/icons/TiktokIcon';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,11 +21,25 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={`${inter.className} flex min-h-screen flex-col bg-neutral-900 text-neutral-100`}>
-        <section className='w-full'>{children}</section>
+        <header className='fixed z-50 w-full border-b border-border backdrop-blur-lg'>
+          <nav className='mx-auto flex max-w-screen-xl py-4'>
+            <Link href={'/'}>
+              <h3 className='font-bold uppercase'>indawoods</h3>
+            </Link>
+          </nav>
+        </header>
+        <section className='mt-20 w-full'>{children}</section>
         <footer className='w-full border-t border-border pb-20 pt-8'>
           <section className='mx-auto flex max-w-screen-xl justify-between'>
             <p>Indawoods store</p>
-            <nav>put some links here</nav>
+            <nav className='flex items-center gap-2'>
+              <Link className='hoverable' href={'https://www.instagram.com/indawoodsog/'}>
+                <InstagramIcon />
+              </Link>
+              <Link className='hoverable' href={'https://www.tiktok.com/@indawoodsog'}>
+                <TiktokIcon />
+              </Link>
+            </nav>
           </section>
         </footer>
       </body>

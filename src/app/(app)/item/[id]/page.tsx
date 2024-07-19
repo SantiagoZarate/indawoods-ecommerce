@@ -34,7 +34,7 @@ export default async function ItemPage({ params: { id } }: Params) {
         ))}
       </ul>
       <aside className='col-span-2 p-4'>
-        <section className='sticky top-0 flex flex-col gap-2 rounded-md border border-border p-4'>
+        <section className='sticky top-[60px] flex flex-col gap-2 rounded-md border border-border p-4'>
           <header className='flex flex-col gap-1 border-b border-border'>
             <h2 className='text-xl font-bold capitalize'>{item.name}</h2>
             <p>$9500</p>

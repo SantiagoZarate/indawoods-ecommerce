@@ -15,7 +15,7 @@ export default async function Page() {
       <ul className='grid w-full grid-cols-4 pb-20'>
         {items.map((item) => (
           <li className='group relative aspect-square' key={item.id}>
-            <Link href={''}>
+            <Link href={`/item/${item.id}`}>
               <Image
                 className='z-10 object-cover transition duration-300 group-hover:opacity-0'
                 fill={true}
