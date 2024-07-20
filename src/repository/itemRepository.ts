@@ -8,6 +8,7 @@ import {
 } from '../shared/dto/itemImagenTalleDTO';
 import { ItemDelete, ItemInsert, ItemToggleVisibility, ItemUpdate } from '../types/item';
 import { createClient } from '../utils/supabase/server';
+import { parseAndSort } from '../utils/zod-schema-validation/parseAndSort';
 
 export class ItemRepository implements ItemRepositoryInterface {
   private _tableName: string = 'item';
@@ -23,7 +24,7 @@ export class ItemRepository implements ItemRepositoryInterface {
       throw new Error('Error getting all items');
     }
 
-    return data.map((d) => itemImageSchemaDTO.parse(d));
+    return data.map((d) => parseAndSort(d, itemImageSchemaDTO));
   }
 
   async getOne({ id }: ItemDelete): Promise<ItemImagenTalleDTO> {
@@ -40,7 +41,7 @@ export class ItemRepository implements ItemRepositoryInterface {
       throw new Error('Error getting item with id: ' + id);
     }
 
-    return itemImagenTalleSchemaDTO.parse(data);
+    return parseAndSort(data, itemImagenTalleSchemaDTO);
   }
 
   async create(payload: ItemInsert): Promise<ItemDTO> {
@@ -101,13 +102,14 @@ export class ItemRepository implements ItemRepositoryInterface {
     const { data, error } = await db
       .from(this._tableName)
       .select('*,imagen(*)')
-      .eq('visible', true)
-      .order('created_at', { ascending: false });
+      .eq('visible', true);
+
     if (error) {
+      console.log(error);
       throw new Error('Error getting all visible items');
     }
 
-    return data.map((d) => itemImageSchemaDTO.parse(d));
+    return data.map((d) => parseAndSort(d, itemImageSchemaDTO));
   }
 
   async toggleVisibility({ id, visible }: ItemToggleVisibility): Promise<ItemDTO> {

@@ -44,19 +44,19 @@ export function CreateItemForm({ talles }: Props) {
   const onSubmit = async (newItem: CreateItemSchema) => {
     const { images, guia_de_talles, name } = newItem;
 
+    const aux = images.map((image, index) => ({
+      originalName: image.name,
+      publicUrl: '',
+      sort_order: index + 1,
+    }));
+
     const uploadImages = images.map(async (image: File, index: number) => {
-      const ret = {
-        publicUrl: '',
-        sort_order: index + 1,
-      };
-
+      const item = aux.find((i) => i.originalName === image.name)!;
       const imageName = `items/${name}-${new Date().toISOString()}-${index}`;
-      ret.publicUrl = await uploadImage(image, imageName);
-
-      return ret;
+      item.publicUrl = await uploadImage(image, imageName);
     });
 
-    const publicImagesURLs = await Promise.all(uploadImages);
+    await Promise.all(uploadImages);
 
     const guiaDeTallesPublicExists = (guia_de_talles as FileList).length !== 0;
 
@@ -67,10 +67,10 @@ export function CreateItemForm({ talles }: Props) {
     execute({
       category: newItem.category,
       description: newItem.description,
-      imagesURL: publicImagesURLs,
       name: newItem.name,
       talles: newItem.talles,
       guiaDeTallesPublicURL,
+      imagesURL: aux.map((n) => ({ publicUrl: n.publicUrl, sort_order: n.sort_order })),
     });
   };
 

@@ -29,10 +29,6 @@ export const createItemSchema = z.object({
     },
     { message: 'if custom size is selected only one size can be selected' },
   ),
-  // talles: z
-  //   .string()
-  //   .array()
-  //   .min(1, { message: 'Item must be available in at least one size' }),
 });
 
 export const createItemSchemaClient = createItemSchema.extend({

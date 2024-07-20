@@ -1,5 +1,9 @@
 import { DndContext, DragEndEvent, closestCorners } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
 import { SortableImageItem } from '@/(admin)/create/SortableItemImage';
@@ -23,13 +27,9 @@ export function ImagesList() {
 
     const images = form.getValues('images');
 
-    const activeImage = images[activePos];
-    const overImage = images[overPos];
+    const newArr = arrayMove(images, activePos, overPos);
 
-    images[activePos] = overImage;
-    images[overPos] = activeImage;
-
-    form.setValue('images', images);
+    form.setValue('images', newArr);
   };
 
   const handleDeleteImage = (index: number) => {
