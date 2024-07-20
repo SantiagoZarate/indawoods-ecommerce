@@ -16,12 +16,14 @@ export default async function Page() {
         {items.map((item) => (
           <li className='group relative aspect-square' key={item.id}>
             <Link href={`/item/${item.id}`}>
-              <Image
-                className='z-10 object-cover transition duration-300 group-hover:opacity-0'
-                fill={true}
-                alt={`${item.name} image`}
-                src={item.imagen[2].url}
-              />
+              {item.imagen.length > 1 && (
+                <Image
+                  className='z-10 object-cover opacity-0 transition duration-300 group-hover:opacity-100'
+                  fill={true}
+                  alt={`${item.name} image`}
+                  src={item.imagen[1].url}
+                />
+              )}
               <Image
                 className='absolute inset-0 z-0 object-cover'
                 fill={true}

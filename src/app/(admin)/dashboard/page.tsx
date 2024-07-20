@@ -2,6 +2,7 @@ import { PreviewImage } from '@/components/ui/previewImage';
 import { ServiceLocator } from '../../../service/serviceLocator';
 import { ToggleVisibilityButton } from './ToggleVisibilityButton';
 import Link from 'next/link';
+import { DeleteItemButton } from './DeleteItemButton';
 
 export default async function DashboardPage() {
   const itemService = ServiceLocator.getService('itemService');
@@ -27,6 +28,9 @@ export default async function DashboardPage() {
             <th scope='col' className='px-6 py-3'>
               <span className='sr-only'>Edit</span>
             </th>
+            <th scope='col' className='px-6 py-3'>
+              <span className='sr-only'>Edit</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +52,9 @@ export default async function DashboardPage() {
                   href={`/edit/${item.id}`}>
                   Edit
                 </Link>
+              </td>
+              <td className='px-6 py-4 text-right'>
+                <DeleteItemButton id={item.id} name={item.name} />
               </td>
             </tr>
           ))}

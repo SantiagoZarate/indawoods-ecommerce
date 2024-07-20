@@ -78,6 +78,7 @@ export class ItemRepository implements ItemRepositoryInterface {
 
   async delete({ id }: ItemDelete): Promise<ItemDTO> {
     const db = await createClient();
+    console.log('ELIMINANDO ITEM');
 
     const { data, error } = await db
       .from(this._tableName)
@@ -87,6 +88,7 @@ export class ItemRepository implements ItemRepositoryInterface {
       .single();
 
     if (error) {
+      console.log(error);
       throw new Error('Error');
     }
 
@@ -99,8 +101,8 @@ export class ItemRepository implements ItemRepositoryInterface {
     const { data, error } = await db
       .from(this._tableName)
       .select('*,imagen(*)')
-      .eq('visible', true);
-
+      .eq('visible', true)
+      .order('created_at', { ascending: false });
     if (error) {
       throw new Error('Error getting all visible items');
     }

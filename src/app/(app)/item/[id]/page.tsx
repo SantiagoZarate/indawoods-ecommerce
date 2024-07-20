@@ -18,7 +18,7 @@ export default async function ItemPage({ params: { id } }: Params) {
   }
 
   return (
-    <section className='relative mx-auto grid w-full max-w-screen-xl grid-cols-5'>
+    <section className='relative mx-auto grid min-h-screen w-full max-w-screen-xl grid-cols-5'>
       <ul className='col-span-3 flex flex-col gap-8'>
         {item.imagen.map((image) => (
           <li key={image.id} className='relative h-full min-h-[600px] w-full'>

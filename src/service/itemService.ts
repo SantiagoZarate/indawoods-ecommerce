@@ -67,4 +67,9 @@ export class ItemService {
     const result = await this._itemRepository.toggleVisibility(data);
     return result;
   }
+
+  async delete(id: number) {
+    const result = await this._itemRepository.delete({ id });
+    return result;
+  }
 }
