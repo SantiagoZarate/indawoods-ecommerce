@@ -3,6 +3,7 @@ import { categories } from '../../constants';
 
 const imageSchema = z
   .array(z.instanceof(File))
+  .min(1, { message: 'Item must at least have 1 image' })
   .max(5, { message: "Item can't have more than 5 images" })
   .refine((files) =>
     files.every(
