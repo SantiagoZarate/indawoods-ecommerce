@@ -6,7 +6,12 @@ import {
   ItemImagenTalleDTO,
   itemImagenTalleSchemaDTO,
 } from '../shared/dto/itemImagenTalleDTO';
-import { ItemDelete, ItemInsert, ItemToggleVisibility, ItemUpdate } from '../types/item';
+import {
+  ItemDelete,
+  ItemInsertRPC,
+  ItemToggleVisibility,
+  ItemUpdate,
+} from '../types/item';
 import { createClient } from '../utils/supabase/server';
 import { parseAndSort } from '../utils/zod-schema-validation/parseAndSort';
 
@@ -20,7 +25,6 @@ export class ItemRepository implements ItemRepositoryInterface {
     const { data, error } = await db.from(this._tableName).select('*, imagen(*)');
 
     if (error) {
-      console.log(error);
       throw new Error('Error getting all items');
     }
 
@@ -37,23 +41,30 @@ export class ItemRepository implements ItemRepositoryInterface {
       .single();
 
     if (error) {
-      console.log(error);
       throw new Error('Error getting item with id: ' + id);
     }
 
     return parseAndSort(data, itemImagenTalleSchemaDTO);
   }
 
-  async create(payload: ItemInsert): Promise<ItemDTO> {
+  async create(payload: ItemInsertRPC): Promise<ItemDTO> {
     const db = await createClient();
 
     const { data, error } = await db
-      .from(this._tableName)
-      .insert(payload)
-      .select<'*', Tables<'item'>>('*')
+      .rpc('create_item', {
+        _name: payload.name,
+        _description: payload.description,
+        _guia_de_talles: payload.guia_de_talles,
+        _category: payload.category,
+        _price: payload.price,
+        _images: payload.images,
+        _talles: payload.talles,
+      })
+      .select('*')
       .single();
 
     if (error) {
+      console.log(error);
       throw new Error('Error creating item');
     }
 

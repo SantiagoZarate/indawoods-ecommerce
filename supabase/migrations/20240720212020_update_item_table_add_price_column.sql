@@ -1,0 +1,1 @@
+ALTER TABLE item ADD precio MONEY NOT NULL;

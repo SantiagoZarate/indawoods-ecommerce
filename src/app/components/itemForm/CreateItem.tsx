@@ -20,6 +20,7 @@ import { NameField } from './NameField';
 import { SizeField } from './SizeField';
 import { TalleDTO } from '../../../shared/dto/talleDTO';
 import { createItem } from '@/(admin)/create/actions';
+import { PriceField } from './PriceField';
 
 interface Props {
   talles: TalleDTO[];
@@ -31,7 +32,7 @@ export function CreateItemForm({ talles }: Props) {
     defaultValues: defaultCreateItemValues,
   });
 
-  const { execute } = useServerAction(createItem, {
+  const { execute, isPending } = useServerAction(createItem, {
     onSuccess: () => {
       toast({ title: 'Item created', description: 'Item created succesfully' });
       form.reset();
@@ -69,6 +70,7 @@ export function CreateItemForm({ talles }: Props) {
       description: newItem.description,
       name: newItem.name,
       talles: newItem.talles,
+      price: newItem.price,
       guiaDeTallesPublicURL,
       imagesURL: aux.map((n) => ({ publicUrl: n.publicUrl, sort_order: n.sort_order })),
     });
@@ -79,11 +81,14 @@ export function CreateItemForm({ talles }: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-8'>
         <NameField />
         <DescriptionField />
+        <PriceField />
         <CategoryField />
         <ImagesField />
         <GuiaDeTallesField />
         <SizeField talles={talles} />
-        <Button type='submit'>Submit</Button>
+        <Button disabled={isPending} type='submit'>
+          Submit
+        </Button>
       </form>
     </FormProvider>
   );

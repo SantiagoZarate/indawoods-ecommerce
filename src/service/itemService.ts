@@ -1,41 +1,17 @@
 import { ItemRepositoryInterface } from '../repository';
 import { ItemToggleVisibility } from '../types/item';
 import { CreateItemSchemaServer } from '../utils/zod-schema-validation/itemSchema';
-import { ServiceLocator } from './serviceLocator';
 
 export class ItemService {
   constructor(private _itemRepository: ItemRepositoryInterface) {}
 
   async create(data: CreateItemSchemaServer) {
-    await this._itemRepository
-      .create({
-        category: data.category,
-        description: data.description,
-        guia_de_talles: data.guiaDeTallesPublicURL ?? '',
-        name: data.name,
-      })
-      .then((res) => {
-        const imageService = ServiceLocator.getService('imageService');
-        const itemTalleService = ServiceLocator.getService('itemTalleService');
-
-        data.imagesURL.forEach(async (image) => {
-          await imageService.create({
-            item_id: Number(res.id),
-            sort_position: image.sort_order,
-            url: image.publicUrl,
-          });
-        });
-
-        data.talles.forEach(async (talle) => {
-          await itemTalleService.create({
-            medida: talle,
-            id: Number(res.id),
-          });
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    await this._itemRepository.create({
+      ...data,
+      guia_de_talles: data.guiaDeTallesPublicURL ?? '',
+      images: data.imagesURL,
+      talles: data.talles,
+    });
   }
 
   async getAll() {

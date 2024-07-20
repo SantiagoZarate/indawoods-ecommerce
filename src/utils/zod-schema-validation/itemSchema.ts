@@ -16,6 +16,7 @@ const imageSchema = z
 export const createItemSchema = z.object({
   category: z.enum(categories),
   name: z.string().min(4, { message: 'Item name should be larger than 4 characters' }),
+  price: z.coerce.number().min(1, { message: 'Price must be a positive value' }),
   description: z
     .string()
     .min(4, { message: 'Item description should be larger than 4 characters' }),
@@ -64,4 +65,5 @@ export const defaultCreateItemValues = {
   images: [],
   name: '',
   guia_de_talles: undefined,
+  price: undefined,
 };

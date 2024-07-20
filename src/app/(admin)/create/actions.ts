@@ -17,6 +17,6 @@ export const createItem = createServerAction()
       throw new ZSAError('ERROR', error);
     }
 
-    revalidatePath('/', 'page');
-    redirect('/');
+    revalidatePath('/dashboard', 'page');
+    redirect('/dashboard');
   });
