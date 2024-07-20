@@ -7,7 +7,6 @@ export class ItemService {
   constructor(private _itemRepository: ItemRepositoryInterface) {}
 
   async create(data: CreateItemSchemaServer) {
-    console.log('CREANDO ITEM');
     await this._itemRepository
       .create({
         category: data.category,
@@ -19,7 +18,6 @@ export class ItemService {
         const imageService = ServiceLocator.getService('imageService');
         const itemTalleService = ServiceLocator.getService('itemTalleService');
 
-        console.log('CREANDO IMAGENES');
         data.imagesURL.forEach(async (image) => {
           await imageService.create({
             item_id: Number(res.id),
@@ -28,7 +26,6 @@ export class ItemService {
           });
         });
 
-        console.log('CREANDO RELACION ITEM TALLE');
         data.talles.forEach(async (talle) => {
           await itemTalleService.create({
             medida: talle,

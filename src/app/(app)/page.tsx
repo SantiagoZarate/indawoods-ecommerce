@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <>
       <section className='w-full border-b border-border py-20'>
-        <h1 className='text-center text-[250px] text-neutral-50'>INDAWOODS</h1>
+        <h1 className='text-center text-[250px] text-primary'>INDAWOODS</h1>
       </section>
       <ul className='grid w-full grid-cols-4 pb-20'>
         {items.map((item) => (

@@ -10,8 +10,6 @@ export const createItem = createServerAction()
   .input(createItemSchemaServer)
   .handler(async ({ input }) => {
     const itemService = ServiceLocator.getService('itemService');
-    console.log('CREANDO ITEM DESDE EL SERVER');
-    console.log(input);
 
     try {
       await itemService.create(input);

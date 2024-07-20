@@ -12,10 +12,9 @@ interface Props extends PropsWithChildren {
 }
 
 export function SortableImageItem({ displayImage, id, onDeleteImage }: Props) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id,
-    });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id,
+  });
 
   const styles = {
     transition,
@@ -30,10 +29,7 @@ export function SortableImageItem({ displayImage, id, onDeleteImage }: Props) {
         className='h-full cursor-pointer border-r border-border p-6 hover:bg-neutral-200'>
         <DraggableIcon />
       </div>
-      <ItemImage
-        imageSRC={displayImage}
-        onDeleteImage={() => onDeleteImage()}
-      />
+      <ItemImage imageSRC={displayImage} onDeleteImage={() => onDeleteImage()} />
     </li>
   );
 }

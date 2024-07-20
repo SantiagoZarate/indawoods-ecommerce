@@ -35,7 +35,6 @@ export const login = createServerAction()
 
 export const logout = createServerAction().handler(async () => {
   const supabase = await createClient();
-  console.log('LOGIN OUT...');
 
   try {
     await supabase.auth.signOut();

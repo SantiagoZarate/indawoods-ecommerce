@@ -1,34 +1,41 @@
 'use client';
 
+import { createItem } from '@/(admin)/create/actions';
+import { CategoryField } from '@/components/itemForm/CategoryField';
+import { DescriptionField } from '@/components/itemForm/DescriptionField';
+import { GuiaDeTallesField } from '@/components/itemForm/GuiaDeTallesField';
+import { ImagesField } from '@/components/itemForm/ImagesField';
+import { NameField } from '@/components/itemForm/NameField';
+import { SizeField } from '@/components/itemForm/SizeField';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
+import { uploadImage } from '@/lib/uploadImage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useServerAction } from 'zsa-react';
-
-import { Button } from '@/components/ui/button';
-import { uploadImage } from '@/lib/uploadImage';
+import { ItemImagenTalleDTO } from '../../../../shared/dto/itemImagenTalleDTO';
+import { TalleDTO } from '../../../../shared/dto/talleDTO';
 import {
+  CreateItemSchema,
   createItemSchemaClient,
-  defaultCreateItemValues,
-  type CreateItemSchema,
-} from '../../../utils/zod-schema-validation/itemSchema';
-import { toast } from '../ui/use-toast';
-import { CategoryField } from './CategoryField';
-import { DescriptionField } from './DescriptionField';
-import { GuiaDeTallesField } from './GuiaDeTallesField';
-import { ImagesField } from './ImagesField';
-import { NameField } from './NameField';
-import { SizeField } from './SizeField';
-import { TalleDTO } from '../../../shared/dto/talleDTO';
-import { createItem } from '@/(admin)/create/actions';
+} from '../../../../utils/zod-schema-validation/itemSchema';
 
 interface Props {
   talles: TalleDTO[];
+  item: ItemImagenTalleDTO;
 }
 
-export function CreateItemForm({ talles }: Props) {
+export default function EditItemPage({ item, talles }: Props) {
   const form = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchemaClient),
-    defaultValues: defaultCreateItemValues,
+    defaultValues: {
+      category: item.category,
+      description: item.description,
+      guia_de_talles: item.guia_de_talles,
+      name: item.name,
+      talles: item.item_talle.map((talle) => talle.talle_medida),
+      images: item.imagen.map((imagen) => new File([], imagen.url)),
+    },
   });
 
   const { execute } = useServerAction(createItem, {
@@ -80,7 +87,7 @@ export function CreateItemForm({ talles }: Props) {
         <CategoryField />
         <ImagesField />
         <GuiaDeTallesField />
-        <SizeField talles={talles} />
+        <SizeField talles={talles} defaultSelected={form.getValues('talles')} />
         <Button type='submit'>Submit</Button>
       </form>
     </FormProvider>

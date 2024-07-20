@@ -22,7 +22,6 @@ export class ItemRepository implements ItemRepositoryInterface {
       console.log(error);
       throw new Error('Error getting all items');
     }
-    console.log(data);
 
     return data.map((d) => itemImageSchemaDTO.parse(d));
   }
@@ -41,7 +40,6 @@ export class ItemRepository implements ItemRepositoryInterface {
       throw new Error('Error getting item with id: ' + id);
     }
 
-    console.log(data);
     return itemImagenTalleSchemaDTO.parse(data);
   }
 

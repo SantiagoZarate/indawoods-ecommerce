@@ -1,3 +1,5 @@
+'use client';
+
 import {
   FormField,
   FormItem,
@@ -13,9 +15,10 @@ import { TalleDTO } from '../../../shared/dto/talleDTO';
 
 interface Props {
   talles: TalleDTO[];
+  defaultSelected?: string[];
 }
 
-export function SizeField({ talles }: Props) {
+export function SizeField({ talles, defaultSelected = [] }: Props) {
   const form = useFormContext<CreateItemSchema>();
 
   const tallesList = talles.map((talle) => ({
@@ -36,7 +39,7 @@ export function SizeField({ talles }: Props) {
               {...field}
               options={tallesList}
               onValueChange={(e) => form.setValue('talles', e)}
-              defaultValue={[]}
+              defaultValue={defaultSelected}
               placeholder='Select frameworks'
               variant='inverted'
               animation={2}

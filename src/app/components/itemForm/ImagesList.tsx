@@ -9,7 +9,11 @@ export function ImagesList() {
 
   const displayImages = form
     .watch('images')
-    .map((imageFile) => URL.createObjectURL(imageFile));
+    .map((imageFile) =>
+      !imageFile.name.startsWith('https')
+        ? URL.createObjectURL(imageFile)
+        : imageFile.name,
+    );
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id === over?.id || !over) return;
