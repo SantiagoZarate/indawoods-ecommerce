@@ -33,6 +33,8 @@ export interface ItemRepositoryInterface
 
   getOne(id: ItemDelete): Promise<ItemImagenTalleDTO>;
 
+  getRecommended(id: ItemDelete): Promise<ItemImageDTO[]>;
+
   delete(id: ItemDelete): Promise<ItemDTO>;
 }
 

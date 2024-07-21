@@ -29,6 +29,11 @@ export class ItemService {
     return result;
   }
 
+  async getRecommended(id: number) {
+    const result = await this._itemRepository.getRecommended({ id });
+    return result;
+  }
+
   async getOneVisible(id: number) {
     const result = await this._itemRepository.getOne({ id });
 

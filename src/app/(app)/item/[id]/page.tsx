@@ -17,6 +17,8 @@ export default async function ItemPage({ params: { id } }: Params) {
     return <p>there is no item</p>;
   }
 
+  const recommendedItems = await itemService.getRecommended(id);
+
   return (
     <>
       <section className='relative mx-auto my-32 grid min-h-screen w-full max-w-screen-xl grid-cols-5'>
@@ -45,10 +47,11 @@ export default async function ItemPage({ params: { id } }: Params) {
         </aside>
       </section>
       <section className='grid w-full grid-cols-4 divide-x divide-border border-t border-border'>
-        <div className='h-80'></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        {recommendedItems.map((item) => (
+          <div key={item.id} className='relative h-80'>
+            <Image alt='item image' fill src={item.imagen[0].url} />
+          </div>
+        ))}
       </section>
     </>
   );

@@ -20,6 +20,22 @@ export class ItemRepository implements ItemRepositoryInterface {
 
   constructor() {}
 
+  async getRecommended({ id }: ItemDelete): Promise<ItemImageDTO[]> {
+    const db = await createClient();
+    const { data, error } = await db
+      .from(this._tableName)
+      .select('*, imagen(*)')
+      .neq('id', id)
+      .order('price', { ascending: false })
+      .limit(4);
+
+    if (error) {
+      throw new Error('Error getting recommended items');
+    }
+
+    return data.map((d) => parseAndSort(d, itemImageSchemaDTO));
+  }
+
   async getAll(): Promise<ItemImageDTO[]> {
     const db = await createClient();
     const { data, error } = await db.from(this._tableName).select('*, imagen(*)');
