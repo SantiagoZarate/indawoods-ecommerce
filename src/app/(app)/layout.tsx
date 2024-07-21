@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import { Footer } from '@/components/common/footer/Footer';
 import { Header } from '@/components/common/header/Header';
+import { Providers } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={`${inter.className} flex min-h-screen flex-col bg-background text-primary`}>
-        <Header />
-        <section className='mt-20 w-full'>{children}</section>
-        <Footer />
+        <Providers>
+          <Header />
+          <section className='w-full'>{children}</section>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
