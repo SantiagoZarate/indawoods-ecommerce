@@ -1,5 +1,5 @@
 import { ImageDTO } from '../shared/dto/imageDTO';
-import { ItemDTO } from '../shared/dto/itemDTO';
+import { ItemDTO, ItemRecommendedDTO } from '../shared/dto/itemDTO';
 import { ItemImageDTO } from '../shared/dto/itemImageDTO';
 import { ItemImagenTalleDTO } from '../shared/dto/itemImagenTalleDTO';
 import { ImageDelete, ImageInsert, ImageUpdate } from '../types/imagen';
@@ -34,7 +34,7 @@ export interface ItemRepositoryInterface
 
   getOne(id: ItemDelete): Promise<ItemImagenTalleDTO>;
 
-  getRecommended(id: ItemDelete): Promise<ItemImageDTO[]>;
+  getRecommended(id: ItemDelete): Promise<ItemRecommendedDTO[]>;
 
   updatePositions(data: updateItemsPositionType[]): Promise<boolean>;
 

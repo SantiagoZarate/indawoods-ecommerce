@@ -135,6 +135,35 @@ export type Database = {
           },
         ]
       }
+      sale: {
+        Row: {
+          amount: unknown
+          created_at: string | null
+          id: number
+          item_id: number | null
+        }
+        Insert: {
+          amount: unknown
+          created_at?: string | null
+          id?: number
+          item_id?: number | null
+        }
+        Update: {
+          amount?: unknown
+          created_at?: string | null
+          id?: number
+          item_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_fk"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "item"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       talle: {
         Row: {
           medida: string

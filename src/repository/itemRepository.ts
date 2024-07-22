@@ -1,6 +1,11 @@
 import { ItemRepositoryInterface } from '.';
 import { Tables } from '../../supabase/types';
-import { ItemDTO, itemSchemaDTO } from '../shared/dto/itemDTO';
+import {
+  ItemDTO,
+  ItemRecommendedDTO,
+  itemRecommendedSchemaDTO,
+  itemSchemaDTO,
+} from '../shared/dto/itemDTO';
 import { ItemImageDTO, itemImageSchemaDTO } from '../shared/dto/itemImageDTO';
 import {
   ItemImagenTalleDTO,
@@ -37,20 +42,21 @@ export class ItemRepository implements ItemRepositoryInterface {
     return data;
   }
 
-  async getRecommended({ id }: ItemDelete): Promise<ItemImageDTO[]> {
+  async getRecommended({ id }: ItemDelete): Promise<ItemRecommendedDTO[]> {
     const db = await createClient();
+
     const { data, error } = await db
-      .from(this._tableName)
-      .select('*, imagen(*)')
-      .neq('id', id)
-      .order('price', { ascending: false })
-      .limit(4);
+      .rpc('get_recommended_items_v2', { _item_id: id })
+      .select('*');
 
     if (error) {
+      console.log(error);
       throw new Error('Error getting recommended items');
     }
 
-    return data.map((d) => parseAndSort(d, itemImageSchemaDTO));
+    console.log(data);
+
+    return data.map((d) => itemRecommendedSchemaDTO.parse(d));
   }
 
   async getAll(): Promise<ItemImageDTO[]> {

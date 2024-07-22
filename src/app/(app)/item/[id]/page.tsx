@@ -2,6 +2,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { ServiceLocator } from '../../../../service/serviceLocator';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui/accordion';
+import { RecommendedItemsSection } from './RecommendedItemsSection';
 
 interface Params {
   params: {
@@ -40,19 +47,34 @@ export default async function ItemPage({ params: { id } }: Params) {
               <h2 className='text-xl font-bold capitalize'>{item.name}</h2>
               <p>${item.price}</p>
             </header>
-            <p className='text-sm'>{item.description}</p>
             <Badge className='w-fit'>{item.category}</Badge>
+            <Accordion type='single' collapsible className='w-full'>
+              <AccordionItem value='item-1'>
+                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It adheres to the WAI-ARIA design pattern.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value='item-2'>
+                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It comes with default styles that matches the other
+                  components&apos; aesthetic.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value='item-3'>
+                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It&apos;s animated by default, but you can disable it if you
+                  prefer.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
             <Button className='uppercase'>comprar</Button>
           </section>
         </aside>
       </section>
-      <section className='grid w-full grid-cols-4 divide-x divide-border border-t border-border'>
-        {recommendedItems.map((item) => (
-          <div key={item.id} className='relative h-80'>
-            <Image alt='item image' fill src={item.imagen[0].url} />
-          </div>
-        ))}
-      </section>
+      <RecommendedItemsSection items={recommendedItems} />
     </>
   );
 }

@@ -21,4 +21,15 @@ export const itemSchemaDTO = z.object({
   sort_position: z.number(),
 });
 
+export const itemRecommendedSchemaDTO = itemSchemaDTO
+  .pick({
+    id: true,
+    name: true,
+  })
+  .extend({
+    image: z.string(),
+  });
+
+export type ItemRecommendedDTO = z.infer<typeof itemRecommendedSchemaDTO>;
+
 export type ItemDTO = z.infer<typeof itemSchemaDTO>;
