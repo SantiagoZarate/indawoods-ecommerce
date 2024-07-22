@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className='w-full border-t border-border pb-32 pt-8'>
+    <footer className='w-full border-t border-border px-6 pb-32 pt-8'>
       <section className='mx-auto flex max-w-screen-xl justify-between'>
         <p>Indawoods store</p>
         <nav className='flex items-center gap-2'>

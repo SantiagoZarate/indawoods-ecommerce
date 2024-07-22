@@ -86,8 +86,6 @@ export function SortableItemsList({ items }: Props) {
       <footer className='flex justify-end'>
         <Button
           onClick={() => {
-            // console.log(filteredUnmodifiedItems);
-            // console.log(itemsPosition)
             execute(filteredUnmodifiedItems);
           }}
           disabled={isPending || filteredUnmodifiedItems.length === 0}>

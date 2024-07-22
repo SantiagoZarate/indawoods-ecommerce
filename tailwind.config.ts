@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        'items-responsive': 'repeat(auto-fill, minmax(400px, 1fr))',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

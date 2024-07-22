@@ -11,7 +11,7 @@ export async function Header() {
   } = await db.auth.getUser();
 
   return (
-    <header className='header fixed z-50 w-full'>
+    <header className='header fixed z-50 w-full px-6'>
       <nav className='mx-auto flex max-w-screen-xl items-center justify-between py-4'>
         <Link href={'/'}>
           <h3 className='font-bold uppercase'>indawoods</h3>
