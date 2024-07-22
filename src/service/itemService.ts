@@ -1,6 +1,7 @@
 import { ItemRepositoryInterface } from '../repository';
 import { ItemToggleVisibility } from '../types/item';
 import { CreateItemSchemaServer } from '../utils/zod-schema-validation/itemSchema';
+import { updateItemsPositionType } from '../utils/zod-schema-validation/updateItemsPositionSchema';
 
 export class ItemService {
   constructor(private _itemRepository: ItemRepositoryInterface) {}
@@ -51,6 +52,11 @@ export class ItemService {
 
   async delete(id: number) {
     const result = await this._itemRepository.delete({ id });
+    return result;
+  }
+
+  async updatePositions(data: updateItemsPositionType[]) {
+    const result = await this._itemRepository.updatePositions(data);
     return result;
   }
 }

@@ -14,11 +14,28 @@ import {
 } from '../types/item';
 import { createClient } from '../utils/supabase/server';
 import { parseAndSort } from '../utils/zod-schema-validation/parseAndSort';
+import { updateItemsPositionType } from '../utils/zod-schema-validation/updateItemsPositionSchema';
 
 export class ItemRepository implements ItemRepositoryInterface {
   private _tableName: string = 'item';
 
   constructor() {}
+
+  async updatePositions(itemsPositions: updateItemsPositionType[]): Promise<boolean> {
+    const db = await createClient();
+
+    const { data, error } = await db.rpc('update_item_position', {
+      _items: itemsPositions,
+    });
+
+    if (error) {
+      console.log(error);
+      throw new Error('Error updating items position');
+    }
+
+    console.log(data);
+    return data;
+  }
 
   async getRecommended({ id }: ItemDelete): Promise<ItemImageDTO[]> {
     const db = await createClient();
@@ -38,7 +55,10 @@ export class ItemRepository implements ItemRepositoryInterface {
 
   async getAll(): Promise<ItemImageDTO[]> {
     const db = await createClient();
-    const { data, error } = await db.from(this._tableName).select('*, imagen(*)');
+    const { data, error } = await db
+      .from(this._tableName)
+      .select('*, imagen(*)')
+      .order('sort_position', { ascending: false });
 
     if (error) {
       throw new Error('Error getting all items');
@@ -129,7 +149,8 @@ export class ItemRepository implements ItemRepositoryInterface {
     const { data, error } = await db
       .from(this._tableName)
       .select('*,imagen(*)')
-      .eq('visible', true);
+      .eq('visible', true)
+      .order('sort_position', { ascending: false });
 
     if (error) {
       console.log(error);

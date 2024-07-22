@@ -6,7 +6,8 @@ import {
 } from '@dnd-kit/sortable';
 import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
-import { SortableImageItem } from '@/(admin)/create/SortableItemImage';
+import { Sortable } from '../dnd/Sortable';
+import { ItemImage } from './ItemImage';
 
 export function ImagesList() {
   const form = useFormContext<CreateItemSchema>();
@@ -47,12 +48,12 @@ export function ImagesList() {
           strategy={verticalListSortingStrategy}
           items={displayImages.map((image) => ({ id: image }))}>
           {displayImages.map((image, index) => (
-            <SortableImageItem
-              onDeleteImage={() => handleDeleteImage(index)}
-              displayImage={image}
-              key={image}
-              id={image}
-            />
+            <Sortable id={image} key={image}>
+              <ItemImage
+                imageSRC={image}
+                onDeleteImage={() => handleDeleteImage(index)}
+              />
+            </Sortable>
           ))}
         </SortableContext>
       </ul>

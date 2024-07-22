@@ -18,6 +18,7 @@ export const itemSchemaDTO = z.object({
   name: z.string(),
   visible: z.boolean(),
   guia_de_talles: z.string().optional(),
+  sort_position: z.number(),
 });
 
 export type ItemDTO = z.infer<typeof itemSchemaDTO>;

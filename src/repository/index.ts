@@ -9,6 +9,7 @@ import {
   ItemToggleVisibility,
   ItemUpdate,
 } from '../types/item';
+import { updateItemsPositionType } from '../utils/zod-schema-validation/updateItemsPositionSchema';
 
 export interface BaseInterface<DTO, Delete, Insert, Update> {
   getAll(): Promise<DTO[]>;
@@ -34,6 +35,8 @@ export interface ItemRepositoryInterface
   getOne(id: ItemDelete): Promise<ItemImagenTalleDTO>;
 
   getRecommended(id: ItemDelete): Promise<ItemImageDTO[]>;
+
+  updatePositions(data: updateItemsPositionType[]): Promise<boolean>;
 
   delete(id: ItemDelete): Promise<ItemDTO>;
 }

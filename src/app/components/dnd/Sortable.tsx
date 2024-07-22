@@ -1,5 +1,4 @@
 import { DraggableIcon } from '@/components/icons/DraggableIcon';
-import { ItemImage } from '@/components/itemForm/ItemImage';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -7,11 +6,9 @@ import { PropsWithChildren } from 'react';
 
 interface Props extends PropsWithChildren {
   id: UniqueIdentifier;
-  onDeleteImage: () => void;
-  displayImage: string;
 }
 
-export function SortableImageItem({ displayImage, id, onDeleteImage }: Props) {
+export function Sortable({ id, children }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id,
   });
@@ -29,7 +26,7 @@ export function SortableImageItem({ displayImage, id, onDeleteImage }: Props) {
         className='h-full cursor-pointer border-r border-border p-6 hover:bg-neutral-200'>
         <DraggableIcon />
       </div>
-      <ItemImage imageSRC={displayImage} onDeleteImage={() => onDeleteImage()} />
+      {children}
     </li>
   );
 }
