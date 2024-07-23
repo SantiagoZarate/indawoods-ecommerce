@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
   const secret = request.headers.get('x-signature-id');
-  console.log(secret);
+  console.log(request);
 
   if (secret !== envs.MP_SECRET) {
     return Response.json({ success: false });
