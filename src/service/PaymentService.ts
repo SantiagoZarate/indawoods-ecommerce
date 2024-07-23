@@ -24,6 +24,7 @@ export class PaymentService {
             title: item.name,
             unit_price: item.price,
             quantity: 1,
+            description: 'Indawoods item',
           },
         ],
       },

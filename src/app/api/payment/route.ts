@@ -1,14 +1,13 @@
 import { NextRequest } from 'next/server';
-import { ServiceLocator } from '../../service/serviceLocator';
-import { envs } from '../../config/envs';
+import { envs } from '../../../config/envs';
+import { ServiceLocator } from '../../../service/serviceLocator';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const secret = request.headers.get('x-signature-id');
 
   if (secret !== envs.MP_SECRET) {
-    console.log('NO COINCIDE LA CLAVE');
-    // return Response.json({ success: false });
+    return Response.json({ success: false });
   }
 
   const paymentService = ServiceLocator.getService('paymentService');
