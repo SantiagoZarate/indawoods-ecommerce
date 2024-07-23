@@ -34,10 +34,11 @@ export class PaymentService {
   }
 
   async generatePaymentResponse(id: string) {
+    const client = new MercadoPagoConfig({ accessToken: envs.MP_ACCESS_TOKEN });
     console.log('GENERATE PAYMENT RESPONSE');
 
     try {
-      const payment = await new Payment(this.client).get({ id });
+      const payment = await new Payment(client).get({ id });
       if (payment.status === 'approved') {
         const itemID = payment.additional_info!.items![0].id;
         console.log('ITEM ID: ' + itemID);
@@ -45,8 +46,9 @@ export class PaymentService {
         return await saleService.create({
           item_id: Number(itemID),
         });
+      } else {
+        console.log('NO SE ENCONTRO EL PAYMENT APPROVED');
       }
-      console.log('NO SE ENCONTRO EL PAYMENT');
     } catch (error) {
       throw Error('Payment not found');
     }
