@@ -3,8 +3,11 @@ import { envs } from '../../../config/envs';
 import { ServiceLocator } from '../../../service/serviceLocator';
 
 export async function POST(request: NextRequest) {
+  console.log('RUNNING PAYMENT HANDLER');
+
   const body = await request.json();
   const secret = request.headers.get('x-signature-id');
+  console.log(secret);
 
   if (secret !== envs.MP_SECRET) {
     return Response.json({ success: false });
