@@ -17,6 +17,8 @@ export const config = {
     '/dashboard',
     '/create',
     '/login',
+    '/sort',
+    '/edit/:path*',
     // '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

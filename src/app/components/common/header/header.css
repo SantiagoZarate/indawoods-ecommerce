@@ -1,5 +1,13 @@
+:root{
+  --border: hsl(214deg, 31.8%, 91.4%);
+}
+
+.darl {
+  --border: hsl(217deg, 32.6%, 17.5%);
+}
+
 .header{
-  border-bottom: 1px solid transparent ;
+  border-bottom: 1px solid transparent;
   animation: border linear both;
   animation-timeline: scroll();
   animation-range: 0 400px;
@@ -7,7 +15,7 @@
 
 @keyframes border {
   to {
-    border-color: hsl(40deg, 50%, 50%);
+    border-color: var(--border);
     backdrop-filter: blur(20px);
   }
 }
