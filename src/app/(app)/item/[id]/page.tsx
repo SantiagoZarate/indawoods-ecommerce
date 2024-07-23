@@ -7,9 +7,9 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import Image from 'next/image';
 import { ServiceLocator } from '../../../../service/serviceLocator';
 import { BuyItemButton } from './BuyItemButton';
+import { ImageGallery } from './ImageGallery';
 import { RecommendedItemsSection } from './RecommendedItemsSection';
 
 interface Params {
@@ -31,18 +31,7 @@ export default async function ItemPage({ params: { id } }: Params) {
   return (
     <>
       <section className='relative mx-auto my-32 grid min-h-screen w-full max-w-screen-xl grid-cols-5'>
-        <ul className='col-span-3 flex flex-col gap-8'>
-          {item.imagen.map((image) => (
-            <li key={image.id} className='relative h-full min-h-[600px] w-full'>
-              <Image
-                className='object-cover'
-                fill={true}
-                alt={`${item.name} image`}
-                src={image.url}
-              />
-            </li>
-          ))}
-        </ul>
+        <ImageGallery images={item.imagen} galleryID={'my-test-gallery'} />
         <aside className='col-span-2 p-4'>
           <section className='sticky top-[40%] flex flex-col gap-4 rounded-md p-4'>
             <header className='flex items-center justify-between gap-2 border-b border-border'>

@@ -19,8 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/app/*"]
-    }
+      "@/*": ["./src/app/*"],
+      "photoswipe/lightbox": ["./node_modules/photoswipe/dist/types/photoswipe.d.ts"]
+    },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "imageLoader.js"],
   "exclude": ["node_modules"]
