@@ -1,10 +1,7 @@
-import { ServiceLocator } from '../../service/serviceLocator';
-import { ItemsGridSection } from './ItemsGridSection';
+import { Suspense } from 'react';
+import { ItemsGridSection, ItemsGridSkeleton } from './ItemsGridSection';
 
-export default async function Page() {
-  const itemService = ServiceLocator.getService('itemService');
-  const items = await itemService.getAllVisible();
-
+export default function Page() {
   return (
     <>
       <section className='relative w-full border-b border-border px-6 py-20'>
@@ -15,7 +12,9 @@ export default async function Page() {
           indawoods - indawoods - indawoods - indawoods - indawoods - indawoods -{' '}
         </p>
       </div>
-      <ItemsGridSection items={items} />
+      <Suspense fallback={<ItemsGridSkeleton />}>
+        <ItemsGridSection />
+      </Suspense>
     </>
   );
 }

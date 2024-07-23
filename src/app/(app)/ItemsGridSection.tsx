@@ -1,14 +1,13 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import { ItemImageDTO } from '../../shared/dto/itemImageDTO';
+import Link from 'next/link';
+import { ServiceLocator } from '../../service/serviceLocator';
 
-interface Props {
-  items: ItemImageDTO[];
-}
+export async function ItemsGridSection() {
+  const itemService = ServiceLocator.getService('itemService');
+  const items = await itemService.getAllVisible();
 
-export function ItemsGridSection({ items }: Props) {
   return (
-    <ul className='grid-cols-items-responsive grid w-full pb-20'>
+    <ul className='grid w-full grid-cols-items-responsive pb-20'>
       {items.map((item) => (
         <li className='group relative aspect-square' key={item.id}>
           <Link href={`/item/${item.id}`}>
@@ -36,6 +35,16 @@ export function ItemsGridSection({ items }: Props) {
             />
           </Link>
         </li>
+      ))}
+    </ul>
+  );
+}
+
+export function ItemsGridSkeleton() {
+  return (
+    <ul className='grid w-full grid-cols-items-responsive pb-20'>
+      {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+        <div key={n} className='aspect-square animate-pulse bg-border' />
       ))}
     </ul>
   );

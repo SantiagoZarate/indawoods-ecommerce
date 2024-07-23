@@ -17,7 +17,7 @@ export function RecommendedItemsSection({ items }: Props) {
           <Link
             href={`/item/${item.id}`}
             key={item.id}
-            className='relative aspect-square'>
+            className='relative aspect-square transition hover:opacity-70'>
             <Image
               alt='item image'
               sizes='(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw'
