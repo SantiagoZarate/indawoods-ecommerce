@@ -40,7 +40,7 @@ export class PaymentService {
     console.log(payment);
     if (payment.status === 'approved') {
       const itemID = payment.additional_info!.items![0].id;
-
+      console.log('ITEM ID: ' + itemID);
       const saleService = ServiceLocator.getService('saleService');
       await saleService.create({
         item_id: Number(itemID),

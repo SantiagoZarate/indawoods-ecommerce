@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 
   const searchParams = request.nextUrl.searchParams;
   const dataID = searchParams.get('data.id');
+  console.log(dataID);
 
   // Separating the x-signature into parts
   const parts = xSignature.split(',');
@@ -57,6 +58,6 @@ export async function POST(request: NextRequest) {
     const results = await paymentService.generatePaymentResponse(body.data.id);
     return Response.json(results);
   } catch (error) {
-    console.log(error);
+    return Response.json({ error });
   }
 }
