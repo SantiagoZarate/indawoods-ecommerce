@@ -46,6 +46,7 @@ export class PaymentService {
           item_id: Number(itemID),
         });
       }
+      console.log('NO SE ENCONTRO EL PAYMENT');
     } catch (error) {
       throw Error('Payment not found');
     }
