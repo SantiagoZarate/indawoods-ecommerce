@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "lucide-react": "^0.408.0",
+    "mercadopago": "2.0.11",
     "next": "14.2.5",
     "next-theme": "0.1.5",
     "react": "^18",

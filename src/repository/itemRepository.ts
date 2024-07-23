@@ -50,11 +50,8 @@ export class ItemRepository implements ItemRepositoryInterface {
       .select('*');
 
     if (error) {
-      console.log(error);
       throw new Error('Error getting recommended items');
     }
-
-    console.log(data);
 
     return data.map((d) => itemRecommendedSchemaDTO.parse(d));
   }

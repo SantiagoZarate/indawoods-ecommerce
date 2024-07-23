@@ -1,13 +1,15 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { ServiceLocator } from '../../../../service/serviceLocator';
+'use server';
+
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
+import { ServiceLocator } from '../../../../service/serviceLocator';
+import { BuyItemButton } from './BuyItemButton';
 import { RecommendedItemsSection } from './RecommendedItemsSection';
 
 interface Params {
@@ -70,7 +72,7 @@ export default async function ItemPage({ params: { id } }: Params) {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <Button className='uppercase'>comprar</Button>
+            <BuyItemButton id={item.id} name={item.name} price={item.price} />
           </section>
         </aside>
       </section>

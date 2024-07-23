@@ -25,15 +25,24 @@ export class SaleRepository implements SaleRepositoryInterface {
 
     return saleSchemaDTO.parse(data);
   }
+
   async create(payload: SaleInsert): Promise<SaleDTO> {
     const db = await createClient();
-    const { data, error } = await db.from(this._tableName).select('*');
+
+    const { data, error } = await db
+      .rpc('insert_sale_record', {
+        _item_id: payload.item_id,
+      })
+      .select('*')
+      .single();
+
     if (error) {
-      throw new Error('Method not implemented.' + payload);
+      throw new Error('Error inserting into sale table.');
     }
 
     return saleSchemaDTO.parse(data);
   }
+
   async update(payload: SaleUpdate): Promise<SaleDTO> {
     const db = await createClient();
     const { data, error } = await db.from(this._tableName).select('*');

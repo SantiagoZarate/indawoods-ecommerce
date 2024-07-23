@@ -5,6 +5,8 @@ const envsSchema = z.object({
   SUPABASE_URL: z.string().url(),
   SUPABASE_KEY: z.string(),
   VALID_EMAIL: z.string().email(),
+  MP_ACCESS_TOKEN: z.string(),
+  MP_SECRET: z.string(),
 });
 
 type Envs = z.infer<typeof envsSchema>;
@@ -14,4 +16,6 @@ export const envs = envsSchema.parse({
   SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL!,
   SUPABASE_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   VALID_EMAIL: process.env.NEXT_VALID_EMAIL!,
+  MP_ACCESS_TOKEN: process.env.MP_ACCESS_TOKEN!,
+  MP_SECRET: process.env.MP_SECRET!,
 } satisfies Envs);

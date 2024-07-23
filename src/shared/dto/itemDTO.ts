@@ -30,6 +30,14 @@ export const itemRecommendedSchemaDTO = itemSchemaDTO
     image: z.string(),
   });
 
+export const itemPaymentSchema = itemSchemaDTO.pick({
+  id: true,
+  price: true,
+  name: true,
+});
+
 export type ItemRecommendedDTO = z.infer<typeof itemRecommendedSchemaDTO>;
 
 export type ItemDTO = z.infer<typeof itemSchemaDTO>;
+
+export type ItemPayment = z.infer<typeof itemPaymentSchema>;
