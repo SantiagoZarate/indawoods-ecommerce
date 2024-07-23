@@ -35,16 +35,19 @@ export class PaymentService {
 
   async generatePaymentResponse(id: string) {
     console.log('GENERATE PAYMENT RESPONSE');
-    const payment = await new Payment(this.client).get({ id });
 
-    console.log(payment);
-    if (payment.status === 'approved') {
-      const itemID = payment.additional_info!.items![0].id;
-      console.log('ITEM ID: ' + itemID);
-      const saleService = ServiceLocator.getService('saleService');
-      await saleService.create({
-        item_id: Number(itemID),
-      });
+    try {
+      const payment = await new Payment(this.client).get({ id });
+      if (payment.status === 'approved') {
+        const itemID = payment.additional_info!.items![0].id;
+        console.log('ITEM ID: ' + itemID);
+        const saleService = ServiceLocator.getService('saleService');
+        return await saleService.create({
+          item_id: Number(itemID),
+        });
+      }
+    } catch (error) {
+      throw Error('Payment not found');
     }
   }
 }
