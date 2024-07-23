@@ -4,17 +4,11 @@ import { ServiceLocator } from '../../../service/serviceLocator';
 import { createHmac } from 'crypto';
 
 export async function POST(request: NextRequest) {
-  console.log('RUNNING PAYMENT HANDLER');
-
-  const body = await request.json();
-  console.log('BODY ID: ' + body.data.id);
-
   const xSignature = request.headers.get('x-signature')!;
   const xRequestId = request.headers.get('x-request-id')!;
 
   const searchParams = request.nextUrl.searchParams;
-  const dataID = searchParams.get('data.id');
-  console.log(dataID);
+  const dataID = searchParams.get('data.id')!;
 
   // Separating the x-signature into parts
   const parts = xSignature.split(',');
@@ -51,12 +45,14 @@ export async function POST(request: NextRequest) {
   if (sha !== hash) {
     console.log('CLAVES NO COINCIDEN');
     return Response.json({ success: false, status: 401 });
+  } else {
+    console.log('LAS CLAVES COINCIDEN');
   }
 
   const paymentService = ServiceLocator.getService('paymentService');
 
   try {
-    const results = await paymentService.generatePaymentResponse(dataID!);
+    const results = await paymentService.generatePaymentResponse(dataID);
     return Response.json(results);
   } catch (error) {
     return Response.json({ error });

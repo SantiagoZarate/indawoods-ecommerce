@@ -35,13 +35,25 @@ export class PaymentService {
 
   async generatePaymentResponse(id: string) {
     const client = new MercadoPagoConfig({ accessToken: envs.MP_ACCESS_TOKEN });
+    const payment = new Payment(client);
+
     console.log('GENERATE PAYMENT RESPONSE');
 
     try {
-      const payment = await new Payment(client).get({ id });
-      if (payment.status === 'approved') {
-        const itemID = payment.additional_info!.items![0].id;
+      const pago = await payment
+        .get({ id: id })
+        .then((res) => {
+          console.log(res);
+          return res;
+        })
+        .catch((e) => {
+          console.log(e);
+          return e;
+        });
+      if (pago.status === 'approved') {
+        const itemID = pago.additional_info!.items![0].id;
         console.log('ITEM ID: ' + itemID);
+
         const saleService = ServiceLocator.getService('saleService');
         return await saleService.create({
           item_id: Number(itemID),
