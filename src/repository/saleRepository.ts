@@ -27,6 +27,7 @@ export class SaleRepository implements SaleRepositoryInterface {
   }
 
   async create(payload: SaleInsert): Promise<SaleDTO> {
+    console.log('INSERTING DATA');
     const db = await createClient();
 
     const { data, error } = await db

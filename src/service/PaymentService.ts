@@ -34,8 +34,10 @@ export class PaymentService {
   }
 
   async generatePaymentResponse(id: number) {
+    console.log('GENERATE PAYMENT RESPONSE');
     const payment = await new Payment(this.client).get({ id });
 
+    console.log(payment);
     if (payment.status === 'approved') {
       const itemID = payment.additional_info!.items![0].id;
 
