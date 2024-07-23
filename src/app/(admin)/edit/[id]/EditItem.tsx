@@ -76,6 +76,7 @@ export default function EditItemPage({ item, talles }: Props) {
       name: newItem.name,
       talles: newItem.talles,
       guiaDeTallesPublicURL,
+      price: newItem.price,
     });
   };
 
