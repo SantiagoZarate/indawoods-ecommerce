@@ -2,6 +2,7 @@ import { ImageDTO } from '../shared/dto/imageDTO';
 import { ItemDTO, ItemRecommendedDTO } from '../shared/dto/itemDTO';
 import { ItemImageDTO } from '../shared/dto/itemImageDTO';
 import { ItemImagenTalleDTO } from '../shared/dto/itemImagenTalleDTO';
+import { SaleDTO } from '../shared/dto/saleDTO';
 import { ImageDelete, ImageInsert, ImageUpdate } from '../types/imagen';
 import {
   ItemDelete,
@@ -9,6 +10,7 @@ import {
   ItemToggleVisibility,
   ItemUpdate,
 } from '../types/item';
+import { SaleDelete, SaleInsert, SaleUpdate } from '../types/sale';
 import { updateItemsPositionType } from '../utils/zod-schema-validation/updateItemsPositionSchema';
 
 export interface BaseInterface<DTO, Delete, Insert, Update> {
@@ -43,3 +45,6 @@ export interface ItemRepositoryInterface
 
 export interface ImageRepositoryInterface
   extends BaseInterface<ImageDTO, ImageDelete, ImageInsert, ImageUpdate> {}
+
+export interface SaleRepositoryInterface
+  extends BaseInterface<SaleDTO, SaleDelete, SaleInsert, SaleUpdate> {}
