@@ -7,6 +7,7 @@ export async function POST(request: NextRequest) {
   console.log('RUNNING PAYMENT HANDLER');
 
   const body = await request.json();
+  console.log('BODY ID: ' + body.data.id);
 
   const xSignature = request.headers.get('x-signature')!;
   const xRequestId = request.headers.get('x-request-id')!;
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
   const paymentService = ServiceLocator.getService('paymentService');
 
   try {
-    const results = await paymentService.generatePaymentResponse(body.data.id);
+    const results = await paymentService.generatePaymentResponse(dataID!);
     return Response.json(results);
   } catch (error) {
     return Response.json({ error });

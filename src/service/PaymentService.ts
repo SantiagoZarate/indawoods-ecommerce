@@ -33,7 +33,7 @@ export class PaymentService {
     redirect(preference.sandbox_init_point!);
   }
 
-  async generatePaymentResponse(id: number) {
+  async generatePaymentResponse(id: string) {
     console.log('GENERATE PAYMENT RESPONSE');
     const payment = await new Payment(this.client).get({ id });
 
