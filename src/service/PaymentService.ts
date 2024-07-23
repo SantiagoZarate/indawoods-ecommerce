@@ -33,18 +33,28 @@ export class PaymentService {
     redirect(preference.sandbox_init_point!);
   }
 
-  async generatePaymentResponse(id: number) {
+  async generatePaymentResponse(id: string) {
+    const preference = new Payment(this.client);
     console.log('GENERATE PAYMENT RESPONSE');
-    const payment = await new Payment(this.client).get({ id });
 
-    console.log(payment);
-    if (payment.status === 'approved') {
-      const itemID = payment.additional_info!.items![0].id;
+    try {
+      const pago = await preference.get({ id: id });
 
-      const saleService = ServiceLocator.getService('saleService');
-      await saleService.create({
-        item_id: Number(itemID),
-      });
+      if (pago.status === '404') {
+        throw new Error('Payment not found');
+      }
+
+      if (pago.status === 'approved') {
+        const itemID = pago.additional_info!.items![0].id;
+        console.log('ITEM ID: ' + itemID);
+
+        const saleService = ServiceLocator.getService('saleService');
+        return await saleService.create({
+          item_id: Number(itemID),
+        });
+      }
+    } catch (error) {
+      throw Error('Payment not found');
     }
   }
 }

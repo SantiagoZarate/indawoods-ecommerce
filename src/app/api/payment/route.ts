@@ -4,15 +4,11 @@ import { ServiceLocator } from '../../../service/serviceLocator';
 import { createHmac } from 'crypto';
 
 export async function POST(request: NextRequest) {
-  console.log('RUNNING PAYMENT HANDLER');
-
-  const body = await request.json();
-
   const xSignature = request.headers.get('x-signature')!;
   const xRequestId = request.headers.get('x-request-id')!;
 
   const searchParams = request.nextUrl.searchParams;
-  const dataID = searchParams.get('data.id');
+  const dataID = searchParams.get('data.id')!;
 
   // Separating the x-signature into parts
   const parts = xSignature.split(',');
@@ -54,9 +50,9 @@ export async function POST(request: NextRequest) {
   const paymentService = ServiceLocator.getService('paymentService');
 
   try {
-    const results = await paymentService.generatePaymentResponse(body.data.id);
+    const results = await paymentService.generatePaymentResponse(dataID);
     return Response.json(results);
   } catch (error) {
-    console.log(error);
+    return Response.json({ error });
   }
 }
