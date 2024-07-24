@@ -4,6 +4,7 @@ import '../styles/globals.css';
 import { Footer } from '@/components/common/footer/Footer';
 import { Header } from '@/components/common/header/Header';
 import { Providers } from '@/components/ThemeProvider';
+import { Disclaimer } from '@/components/Disclaimer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Header />
           <section className='w-full'>{children}</section>
           <Footer />
+          <Disclaimer />
         </Providers>
       </body>
     </html>
