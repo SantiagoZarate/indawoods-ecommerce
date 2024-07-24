@@ -42,7 +42,7 @@ export default async function DashboardPage() {
                 <PreviewImage src={item.imagen[0].url} />
               </td>
               <td className='px-6 py-4'>{item.name}</td>
-              <td className='px-6 py-4'>$9499.99</td>
+              <td className='px-6 py-4'>${item.price}</td>
               <td className='px-6 py-4'>
                 <ToggleVisibilityButton id={item.id} visible={item.visible} />
               </td>

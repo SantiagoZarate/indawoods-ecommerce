@@ -12,7 +12,7 @@ export function LogoutButton() {
     <form action={executeFormAction} className='p-2'>
       <Button variant={'outline'} className='flex w-full gap-2'>
         <LogoutIcon />
-        <span className='text-sm'>Log out</span>
+        <span className='hidden text-sm md:block'>Log out</span>
       </Button>
     </form>
   );

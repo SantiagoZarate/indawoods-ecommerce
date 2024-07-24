@@ -6,7 +6,7 @@ export function AsideHeader() {
       <div className='relative aspect-square size-12 overflow-hidden rounded-lg'>
         <Image fill={true} alt='indawoods logo' src={'/images/indawoods-logo.jpg'} />
       </div>
-      <div className='flex flex-col gap-1'>
+      <div className='hidden flex-col gap-1 md:flex'>
         <span className='text-2xl'>indawoods</span>
         <span className='font-mono text-xs uppercase'>dashboard</span>
       </div>
