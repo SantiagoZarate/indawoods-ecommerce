@@ -27,7 +27,7 @@ export function GuiaDeTallesField() {
       render={({ field }) => (
         <FormItem>
           <FormLabel>
-            Guia de talles
+            Guia de talles (Optional)
             <div className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-neutral-100 p-2 transition hover:-translate-y-1'>
               <PictureMiniIcon />
               <span>add image</span>
@@ -35,10 +35,7 @@ export function GuiaDeTallesField() {
           </FormLabel>
           <article className='flex items-center gap-2'>
             {preview ? (
-              <ItemImage
-                imageSRC={preview}
-                onDeleteImage={() => setPreview('')}
-              />
+              <ItemImage imageSRC={preview} onDeleteImage={() => setPreview('')} />
             ) : (
               <div className='mx-auto text-sm'>No image uploaded</div>
             )}

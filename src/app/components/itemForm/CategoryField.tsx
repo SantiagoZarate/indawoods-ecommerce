@@ -28,7 +28,7 @@ export function CategoryField() {
           <FormLabel>Category</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className='bg-neutral-100 hover:bg-background'>
                 <SelectValue placeholder='Select a category' />
               </SelectTrigger>
             </FormControl>

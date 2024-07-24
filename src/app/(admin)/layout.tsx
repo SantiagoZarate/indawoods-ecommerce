@@ -23,7 +23,8 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html lang='en'>
       <body className={`${inter.className} flex min-h-screen bg-background text-primary`}>
         {user && <AsideMenu />}
-        <main className={`${user && 'ml-[300px]'} min-h-screen flex-1 bg-neutral-50 p-6`}>
+        <main
+          className={`${user && 'md:ml-[300px]'} min-h-screen flex-1 bg-neutral-50 p-6`}>
           {children}
         </main>
         <Toaster />

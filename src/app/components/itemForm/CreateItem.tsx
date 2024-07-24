@@ -78,17 +78,24 @@ export function CreateItemForm({ talles }: Props) {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-8'>
-        <NameField />
-        <DescriptionField />
-        <PriceField />
-        <CategoryField />
-        <ImagesField />
-        <GuiaDeTallesField />
-        <SizeField talles={talles} />
-        <Button disabled={isPending} type='submit'>
-          Submit
-        </Button>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-6'>
+        <section className='col-span-2 flex flex-col gap-4 border border-border bg-background p-4 lg:col-span-1'>
+          <NameField />
+          <DescriptionField />
+          <PriceField />
+          <CategoryField />
+          <SizeField talles={talles} />
+        </section>
+        <section className='col-span-2 flex flex-col gap-4 border border-border bg-background p-4 lg:col-span-1'>
+          <GuiaDeTallesField />
+          <ImagesField />
+        </section>
+        <footer className='col-span-2 flex items-center justify-between border border-border bg-background p-4'>
+          <p>Create new item</p>
+          <Button disabled={isPending} type='submit'>
+            Save
+          </Button>
+        </footer>
       </form>
     </FormProvider>
   );

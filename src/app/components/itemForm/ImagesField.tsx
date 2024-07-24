@@ -23,7 +23,7 @@ export function ImagesField() {
         render={({ field: { ref } }) => (
           <FormItem>
             <FormLabel>
-              imagenes
+              Imagenes
               <div className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-neutral-100 p-2 transition hover:-translate-y-1'>
                 <PictureMiniIcon />
                 <span>add image</span>
