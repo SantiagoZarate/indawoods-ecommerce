@@ -1,11 +1,14 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { ExclamationIcon } from './icons/ExclamationIcon';
 import { XMicroIcon } from './icons/XMicroIcon';
 
-export function Disclaimer() {
-  const [show, setShow] = useState(localStorage.getItem('dontShowDisclaimer') === null);
+function Disclaimer() {
+  const [show, setShow] = useState(
+    window.localStorage.getItem('dontShowDisclaimer') === null,
+  );
 
   const onCloseDisclaimer = () => {
     localStorage.setItem('dontShowDisclaimer', 'true');
@@ -31,3 +34,7 @@ export function Disclaimer() {
     </div>
   );
 }
+
+export const DinamicDisclaimer = dynamic(async () => Disclaimer, {
+  ssr: false,
+});

@@ -36,7 +36,7 @@ export default function LoginPage() {
   });
 
   return (
-    <section className='flex min-h-screen items-center justify-center'>
+    <section className='flex min-h-[100dvh] items-center justify-center'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit((data) => execute(data))}

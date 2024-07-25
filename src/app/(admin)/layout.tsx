@@ -21,10 +21,11 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 
   return (
     <html lang='en'>
-      <body className={`${inter.className} flex min-h-screen bg-background text-primary`}>
+      <body
+        className={`${inter.className} flex min-h-[100dvh] bg-background text-primary`}>
         {user && <AsideMenu />}
         <main
-          className={`${user && 'md:ml-[300px]'} ml-[80px] min-h-screen flex-1 bg-neutral-50 p-6`}>
+          className={`${user && 'md:ml-[300px]'} ml-[80px] min-h-[100dvh] flex-1 bg-neutral-50 p-6`}>
           {children}
         </main>
         <Toaster />
