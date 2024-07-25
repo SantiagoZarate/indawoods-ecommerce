@@ -59,4 +59,12 @@ export class ItemService {
     const result = await this._itemRepository.updatePositions(data);
     return result;
   }
+
+  async update(data: CreateItemSchemaServer, id: number) {
+    const result = await this._itemRepository.update(
+      { ...data, guia_de_talles: data.guiaDeTallesPublicURL ?? '' },
+      id,
+    );
+    return result;
+  }
 }

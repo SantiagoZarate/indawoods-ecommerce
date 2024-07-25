@@ -9,7 +9,7 @@ import {
   arrayMove,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useServerAction } from 'zsa-react';
 import { ItemDTO } from '../../../shared/dto/itemDTO';
 import { updateItemsPositionType } from '../../../utils/zod-schema-validation/updateItemsPositionSchema';
@@ -22,10 +22,6 @@ interface Props {
 export function SortableItemsList({ items }: Props) {
   const backupOrder = useRef(items);
   const [itemsPosition, setItemsPosition] = useState(items);
-
-  useEffect(() => {
-    console.log(itemsPosition);
-  }, []);
 
   const { execute, isPending } = useServerAction(updateItemsPosition, {
     onError: ({ err }) => {

@@ -5,12 +5,15 @@ const imageSchema = z
   .array(z.instanceof(File))
   .min(1, { message: 'Item must at least have 1 image' })
   .max(5, { message: "Item can't have more than 5 images" })
-  .refine((files) =>
-    files.every(
-      (file) =>
-        file.size <= 5 * 1024 * 1024 &&
-        ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type),
-    ),
+  .refine(
+    (files) =>
+      files.every(
+        (file) =>
+          (file.size <= 5 * 1024 * 1024 &&
+            ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) ||
+          file.name.startsWith('https://hjftzjtm'),
+      ),
+    { message: 'Only images of less than 5MB' },
   );
 
 export const createItemSchema = z.object({
@@ -22,7 +25,6 @@ export const createItemSchema = z.object({
     .min(4, { message: 'Item description should be larger than 4 characters' }),
   talles: z.array(z.string()).refine(
     (talles) => {
-      console.log(talles);
       if (talles.includes('custom')) {
         return talles.length === 1;
       }

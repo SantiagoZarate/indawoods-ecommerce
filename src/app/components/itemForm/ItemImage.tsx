@@ -14,7 +14,7 @@ export function ItemImage({ imageSRC, onDeleteImage }: Props) {
         <PreviewImage src={imageSRC} />
         <div className='flex flex-col gap-2'>
           <p className='text-sm font-bold'>Name</p>
-          <p className='text-xs'>{imageSRC}</p>
+          <p className='text-xs'>{imageSRC.slice(40)}</p>
         </div>
       </div>
       <div className='flex items-center px-4'>

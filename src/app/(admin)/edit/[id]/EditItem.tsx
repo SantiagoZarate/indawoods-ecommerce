@@ -1,16 +1,10 @@
 'use client';
 
-import { createItem } from '@/(admin)/create/actions';
-import { CategoryField } from '@/components/itemForm/CategoryField';
-import { DescriptionField } from '@/components/itemForm/DescriptionField';
-import { GuiaDeTallesField } from '@/components/itemForm/GuiaDeTallesField';
-import { ImagesField } from '@/components/itemForm/ImagesField';
-import { NameField } from '@/components/itemForm/NameField';
-import { SizeField } from '@/components/itemForm/SizeField';
-import { Button } from '@/components/ui/button';
+import { Form } from '@/components/itemForm/Form';
 import { toast } from '@/components/ui/use-toast';
 import { uploadImage } from '@/lib/uploadImage';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useServerAction } from 'zsa-react';
 import { ItemImagenTalleDTO } from '../../../../shared/dto/itemImagenTalleDTO';
@@ -19,6 +13,7 @@ import {
   CreateItemSchema,
   createItemSchemaClient,
 } from '../../../../utils/zod-schema-validation/itemSchema';
+import { updateItem } from './actions';
 
 interface Props {
   talles: TalleDTO[];
@@ -26,6 +21,8 @@ interface Props {
 }
 
 export default function EditItemPage({ item, talles }: Props) {
+  const { id } = useParams();
+
   const form = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchemaClient),
     defaultValues: {
@@ -35,26 +32,26 @@ export default function EditItemPage({ item, talles }: Props) {
       name: item.name,
       talles: item.item_talle.map((talle) => talle.talle_medida),
       images: item.imagen.map((imagen) => new File([], imagen.url)),
+      price: item.price,
     },
   });
 
-  const { execute } = useServerAction(createItem, {
+  const { execute, isPending } = useServerAction(updateItem, {
     onSuccess: () => {
-      toast({ title: 'Item created', description: 'Item created succesfully' });
+      toast({ title: 'Item updated', description: 'Item updated succesfully' });
       form.reset();
     },
     onError: () => {
-      toast({ title: 'Ooops!', description: 'Error creating a new item' });
+      toast({ title: 'Ooops!', description: 'Error updating an item' });
     },
   });
 
-  const onSubmit = async (newItem: CreateItemSchema) => {
-    const { images, guia_de_talles, name } = newItem;
-
+  const onSubmit = async (payload: CreateItemSchema) => {
+    console.log(payload);
+    const { images, guia_de_talles, name } = payload;
     const uploadImages = images.map(async (image: File, index: number) => {
       const imageName = `items/${name}-${new Date().toISOString()}-${index}`;
       const publicUrl = await uploadImage(image, imageName);
-
       return {
         publicUrl,
         sort_order: index + 1,
@@ -63,34 +60,29 @@ export default function EditItemPage({ item, talles }: Props) {
 
     const publicImagesURLs = await Promise.all(uploadImages);
 
-    const guiaDeTallesPublicExists = (guia_de_talles as FileList).length !== 0;
+    const guiaDeTallesPublicExists =
+      (guia_de_talles as FileList).length !== 0 &&
+      !(guia_de_talles as FileList)[0].name.startsWith('https://hjftzjtm');
 
     const guiaDeTallesPublicURL = guiaDeTallesPublicExists
       ? await uploadImage(guia_de_talles, `talles/${name}-guia-de-talles`)
       : undefined;
 
     execute({
-      category: newItem.category,
-      description: newItem.description,
+      category: payload.category,
+      description: payload.description,
       imagesURL: publicImagesURLs,
-      name: newItem.name,
-      talles: newItem.talles,
+      name: payload.name,
+      talles: payload.talles,
       guiaDeTallesPublicURL,
-      price: newItem.price,
+      price: payload.price,
+      id: Number(id),
     });
   };
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-8'>
-        <NameField />
-        <DescriptionField />
-        <CategoryField />
-        <ImagesField />
-        <GuiaDeTallesField />
-        <SizeField talles={talles} defaultSelected={form.getValues('talles')} />
-        <Button type='submit'>Submit</Button>
-      </form>
+      <Form isPending={isPending} onSubmit={onSubmit} talles={talles} />;
     </FormProvider>
   );
 }

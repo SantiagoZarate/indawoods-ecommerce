@@ -110,12 +110,13 @@ export class ItemRepository implements ItemRepositoryInterface {
     return itemSchemaDTO.parse(data);
   }
 
-  async update(payload: ItemUpdate): Promise<ItemDTO> {
+  async update(payload: ItemUpdate, id: number): Promise<ItemDTO> {
     const db = await createClient();
 
     const { data, error } = await db
       .from(this._tableName)
       .update(payload)
+      .eq('id', id)
       .select<'*', Tables<'item'>>('*')
       .single();
 

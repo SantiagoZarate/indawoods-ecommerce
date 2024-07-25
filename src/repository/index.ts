@@ -20,7 +20,7 @@ export interface BaseInterface<DTO, Delete, Insert, Update> {
 
   create(payload: Insert): Promise<DTO>;
 
-  update(payload: Update): Promise<DTO>;
+  update(payload: Update, id: number): Promise<DTO>;
 }
 
 export interface ItemRepositoryInterface
