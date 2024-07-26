@@ -58,6 +58,7 @@ export class ItemRepository implements ItemRepositoryInterface {
 
   async getAll(): Promise<ItemImageDTO[]> {
     const db = await createClient();
+
     const { data, error } = await db
       .from(this._tableName)
       .select('*, imagen(*)')

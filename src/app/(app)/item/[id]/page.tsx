@@ -6,11 +6,19 @@ import { BuyItemButton } from './BuyItemButton';
 import { ImageGallery } from './ImageGallery';
 import { ItemDetails } from './ItemDetails';
 import { RecommendedItemsSection } from './RecommendedItemsSection';
+import { createClient } from '../../../../utils/supabase/client';
 
 interface Params {
   params: {
     id: number;
   };
+}
+
+export async function generateStaticParams() {
+  const db = createClient();
+  const { data } = await db.from('item').select('*');
+
+  return data!.map((i) => ({ id: String(i.id) }));
 }
 
 export default async function ItemPage({ params: { id } }: Params) {
