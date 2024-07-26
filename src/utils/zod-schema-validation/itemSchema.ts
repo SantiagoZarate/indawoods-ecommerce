@@ -11,7 +11,8 @@ const imageSchema = z
         (file) =>
           (file.size <= 5 * 1024 * 1024 &&
             ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) ||
-          file.name.startsWith('https://hjftzjtm'),
+          file.name.startsWith('https://hjftzjtm') ||
+          file.name.startsWith('http://127.0.0.1:54321'),
       ),
     { message: 'Only images of less than 5MB' },
   );

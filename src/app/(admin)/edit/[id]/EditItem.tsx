@@ -20,6 +20,10 @@ interface Props {
   item: ItemImagenTalleDTO;
 }
 
+export function imageHasBeenAlreadyUploaded(name: string) {
+  return name.startsWith('https://hjftzjtm') || name.startsWith('http://127.0.0.1:54321');
+}
+
 export default function EditItemPage({ item, talles }: Props) {
   const { id } = useParams();
 
@@ -35,6 +39,8 @@ export default function EditItemPage({ item, talles }: Props) {
       price: item.price,
     },
   });
+
+  console.log(form.getValues('images'));
 
   const { execute, isPending } = useServerAction(updateItem, {
     onSuccess: () => {
@@ -54,7 +60,7 @@ export default function EditItemPage({ item, talles }: Props) {
         const imageName = `items/${name}-${new Date().toISOString()}-${index}`;
         return {
           sort_order: index + 1,
-          publicUrl: image.name.startsWith('https://hjftzjtm')
+          publicUrl: imageHasBeenAlreadyUploaded(image.name)
             ? image.name
             : await uploadImage(image, imageName),
         };
@@ -63,7 +69,7 @@ export default function EditItemPage({ item, talles }: Props) {
 
     const guiaDeTallesPublicExists =
       (guia_de_talles as FileList).length !== 0 &&
-      !(guia_de_talles as string).startsWith('https://hjftzjtm');
+      !imageHasBeenAlreadyUploaded(guia_de_talles as string);
 
     console.log(guia_de_talles);
 

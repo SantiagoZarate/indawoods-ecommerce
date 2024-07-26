@@ -1,10 +1,12 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import '../styles/globals.css';
+import { DinamicDisclaimer } from '@/components/Disclaimer';
+import { Providers } from '@/components/ThemeProvider';
 import { Footer } from '@/components/common/footer/Footer';
 import { Header } from '@/components/common/header/Header';
-import { Providers } from '@/components/ThemeProvider';
-import { DinamicDisclaimer } from '@/components/Disclaimer';
+import { BeakerMicroIcon } from '@/components/icons/BeakerMicroIcon';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { envs } from '../../config/envs';
+import '../styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +29,12 @@ export default function RootLayout({
           <section className='w-full'>{children}</section>
           <Footer />
           <DinamicDisclaimer />
+          {envs.MODE !== 'production' && (
+            <p className='fixed bottom-0 right-0 m-4 flex h-fit w-fit gap-1 rounded-lg border border-border bg-background p-2'>
+              <BeakerMicroIcon />
+              <span className='text-xs capitalize'>{envs.MODE}</span>
+            </p>
+          )}
         </Providers>
       </body>
     </html>

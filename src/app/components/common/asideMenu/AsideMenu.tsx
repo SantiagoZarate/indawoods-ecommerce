@@ -1,6 +1,6 @@
 import { AsideHeader } from './AsideHeader';
 import { AsideNavLinks } from './AsideNavLinks';
-import { LogoutButton } from './LogoutButton';
+import { BotomSection } from './BotomSection';
 
 export function AsideMenu() {
   return (
@@ -8,7 +8,7 @@ export function AsideMenu() {
       <AsideHeader />
       <section className='flex h-full flex-col justify-between'>
         <AsideNavLinks />
-        <LogoutButton />
+        <BotomSection />
       </section>
     </aside>
   );

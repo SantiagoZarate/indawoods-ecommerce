@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { CreateItemSchema } from '../../../utils/zod-schema-validation/itemSchema';
 import { Sortable } from '../dnd/Sortable';
 import { ItemImage } from './ItemImage';
+import { imageHasBeenAlreadyUploaded } from '@/(admin)/edit/[id]/EditItem';
 
 export function ImagesList() {
   const form = useFormContext<CreateItemSchema>();
@@ -15,7 +16,7 @@ export function ImagesList() {
   const displayImages = form
     .watch('images')
     .map((imageFile) =>
-      !imageFile.name.startsWith('https')
+      !imageHasBeenAlreadyUploaded(imageFile.name)
         ? URL.createObjectURL(imageFile)
         : imageFile.name,
     );

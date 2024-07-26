@@ -9,7 +9,7 @@ export function LogoutButton() {
   const { executeFormAction } = useServerAction(logout);
 
   return (
-    <form action={executeFormAction} className='p-2'>
+    <form action={executeFormAction}>
       <Button variant={'outline'} className='flex w-full gap-2'>
         <LogoutIcon />
         <span className='hidden text-sm md:block'>Log out</span>

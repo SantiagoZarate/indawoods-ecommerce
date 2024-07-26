@@ -13,7 +13,7 @@ export async function uploadImage(image: File, imageName: string): Promise<strin
 
   if (error) {
     console.log(error);
-    throw new Error('ERROR UPLOADING IMAGE, CAUSE: ' + error);
+    throw new Error('ERROR UPLOADING IMAGE, CAUSE: ' + error.message);
   }
 
   const {
