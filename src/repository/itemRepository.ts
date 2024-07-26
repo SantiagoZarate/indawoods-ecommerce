@@ -121,7 +121,6 @@ export class ItemRepository implements ItemRepositoryInterface {
       .single();
 
     if (error) {
-      console.log(error);
       throw new Error('Error');
     }
 

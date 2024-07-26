@@ -41,42 +41,50 @@ export default function EditItemPage({ item, talles }: Props) {
       toast({ title: 'Item updated', description: 'Item updated succesfully' });
       form.reset();
     },
-    onError: () => {
-      toast({ title: 'Ooops!', description: 'Error updating an item' });
+    onError: ({ err }) => {
+      toast({ title: 'Ooops!', description: err.message });
     },
   });
 
   const onSubmit = async (payload: CreateItemSchema) => {
-    console.log(payload);
     const { images, guia_de_talles, name } = payload;
-    const uploadImages = images.map(async (image: File, index: number) => {
-      const imageName = `items/${name}-${new Date().toISOString()}-${index}`;
-      const publicUrl = await uploadImage(image, imageName);
-      return {
-        publicUrl,
-        sort_order: index + 1,
-      };
-    });
 
-    const publicImagesURLs = await Promise.all(uploadImages);
+    const imagesURL = await Promise.all(
+      images.map(async (image: File, index: number) => {
+        const imageName = `items/${name}-${new Date().toISOString()}-${index}`;
+        return {
+          sort_order: index + 1,
+          publicUrl: image.name.startsWith('https://hjftzjtm')
+            ? image.name
+            : await uploadImage(image, imageName),
+        };
+      }),
+    );
 
     const guiaDeTallesPublicExists =
       (guia_de_talles as FileList).length !== 0 &&
-      !(guia_de_talles as FileList)[0].name.startsWith('https://hjftzjtm');
+      !(guia_de_talles as string).startsWith('https://hjftzjtm');
+
+    console.log(guia_de_talles);
 
     const guiaDeTallesPublicURL = guiaDeTallesPublicExists
       ? await uploadImage(guia_de_talles, `talles/${name}-guia-de-talles`)
       : undefined;
 
+    console.log(imagesURL);
+
     execute({
-      category: payload.category,
-      description: payload.description,
-      imagesURL: publicImagesURLs,
-      name: payload.name,
-      talles: payload.talles,
-      guiaDeTallesPublicURL,
-      price: payload.price,
+      old: { ...item, price: String(item.price) },
       id: Number(id),
+      new: {
+        category: payload.category,
+        description: payload.description,
+        imagesURL,
+        name: payload.name,
+        talles: payload.talles,
+        guiaDeTallesPublicURL,
+        price: payload.price,
+      },
     });
   };
 

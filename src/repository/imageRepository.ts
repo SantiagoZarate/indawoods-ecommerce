@@ -69,4 +69,44 @@ export class ImageRepository implements ImageRepositoryInterface {
 
     return imageSchemaDTO.parse(data);
   }
+
+  async deleteByUrl(payload: Pick<ImageInsert, 'url'>) {
+    const db = await createClient();
+
+    const { data, error } = await db
+      .from(this._tableName)
+      .delete()
+      .eq('url', payload.url)
+      .select<'*', Tables<'imagen'>>('*')
+      .single();
+
+    if (error) {
+      throw new Error('Error');
+    }
+
+    return imageSchemaDTO.parse(data);
+  }
+
+  async updatePosition(
+    { sort_position }: Pick<ImageInsert, 'sort_position'>,
+    id: number,
+  ) {
+    const db = await createClient();
+
+    console.log('ACTUALIZANDO');
+    const { data, error } = await db
+      .from(this._tableName)
+      .update({
+        sort_position,
+      })
+      .eq('id', id)
+      .select<'*', Tables<'imagen'>>('*')
+      .single();
+
+    if (error) {
+      throw new Error('Error updating position of item ' + id);
+    }
+
+    return imageSchemaDTO.parse(data);
+  }
 }

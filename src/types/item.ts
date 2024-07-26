@@ -6,7 +6,7 @@ export type ItemInsert = Pick<
   'category' | 'name' | 'description' | 'guia_de_talles' | 'price'
 >;
 export type ItemDelete = Pick<ItemRaw, 'id'>;
-export type ItemUpdate = ItemInsert;
+export type ItemUpdate = Partial<ItemInsert>;
 export type ItemToggleVisibility = Pick<ItemRaw, 'id' | 'visible'>;
 
 export type ItemInsertRPC = ItemInsert & {

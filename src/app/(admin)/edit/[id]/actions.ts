@@ -6,10 +6,13 @@ import { ZSAError, createServerAction } from 'zsa';
 import { ServiceLocator } from '../../../../service/serviceLocator';
 import { createItemSchemaServer } from '../../../../utils/zod-schema-validation/itemSchema';
 import { z } from 'zod';
+import { itemImagenTalleSchemaDTO } from '../../../../shared/dto/itemImagenTalleDTO';
 
 export const updateItem = createServerAction()
   .input(
-    createItemSchemaServer.extend({
+    z.object({
+      new: createItemSchemaServer,
+      old: itemImagenTalleSchemaDTO,
       id: z.coerce.number(),
     }),
   )
@@ -17,8 +20,9 @@ export const updateItem = createServerAction()
     const itemService = ServiceLocator.getService('itemService');
 
     try {
-      await itemService.update(input, input.id);
+      await itemService.update(input.new, input.old, input.id);
     } catch (error) {
+      console.log(error);
       throw new ZSAError('ERROR', error);
     }
 

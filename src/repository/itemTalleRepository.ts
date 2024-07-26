@@ -20,4 +20,22 @@ export class ItemTalleRepository {
 
     return itemTalleSchemaDTO.parse(data);
   }
+
+  async delete({ id, medida }: ItemTalleInsert) {
+    const db = await createClient();
+
+    const { data, error } = await db
+      .from(this._tableName)
+      .delete()
+      .eq('item_id', id)
+      .eq('talle_medida', medida)
+      .select('*')
+      .single();
+
+    if (error) {
+      throw new Error('Error deleting record in item_talle table');
+    }
+
+    return itemTalleSchemaDTO.parse(data);
+  }
 }

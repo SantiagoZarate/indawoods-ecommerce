@@ -44,7 +44,11 @@ export interface ItemRepositoryInterface
 }
 
 export interface ImageRepositoryInterface
-  extends BaseInterface<ImageDTO, ImageDelete, ImageInsert, ImageUpdate> {}
+  extends BaseInterface<ImageDTO, ImageDelete, ImageInsert, ImageUpdate> {
+  deleteByUrl(data: Pick<ImageInsert, 'url'>): Promise<ImageDTO>;
+
+  updatePosition(data: Pick<ImageInsert, 'sort_position'>, id: number): Promise<ImageDTO>;
+}
 
 export interface SaleRepositoryInterface
   extends BaseInterface<SaleDTO, SaleDelete, SaleInsert, SaleUpdate> {}

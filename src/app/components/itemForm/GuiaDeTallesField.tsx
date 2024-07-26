@@ -15,9 +15,9 @@ import { PictureMiniIcon } from '../icons/PictureMiniIcon';
 import { ItemImage } from './ItemImage';
 
 export function GuiaDeTallesField() {
-  const [preview, setPreview] = useState('');
-
   const form = useFormContext<CreateItemSchema>();
+
+  const [preview, setPreview] = useState(form.watch('guia_de_talles') ?? '');
   const fileRef = form.register('guia_de_talles');
 
   return (
